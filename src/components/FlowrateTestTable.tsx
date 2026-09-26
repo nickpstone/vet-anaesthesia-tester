@@ -12,7 +12,7 @@ import {
   ChevronRight
 } from 'lucide-react';
 import { DialPoint, RunEvaluation, TestRun, ToleranceConfig } from '../types';
-import { evaluateRun } from '../utils/calculations';
+import { evaluateRun, evaluatePoint } from '../utils/calculations';
 
 interface FlowrateTestTableProps {
   runs: TestRun[];
@@ -30,6 +30,7 @@ export const FlowrateTestTable: React.FC<FlowrateTestTableProps> = ({
   const [activeRunIndex, setActiveRunIndex] = useState(0);
   const [showToleranceSettings, setShowToleranceSettings] = useState(false);
   const [customDialInput, setCustomDialInput] = useState('');
+  const [editingDialValues, setEditingDialValues] = useState<Record<string, string>>({});
 
   const currentRun = runs[activeRunIndex] || runs[0];
   const runEvaluation: RunEvaluation = evaluateRun(currentRun, tolerance);
@@ -69,6 +70,100 @@ export const FlowrateTestTable: React.FC<FlowrateTestTableProps> = ({
     handleUpdateMeasurement(dialId, exactVal.toString());
   };
 
+  // Adjust dial setting (e.g. changing 0.2 to 0.25, 0.4, 0.5 or 0.6 to 0.5, 0.8)
+  const handleUpdateDialSetting = (dialId: string, newSettingValue: number) => {
+    if (isNaN(newSettingValue) || newSettingValue <= 0) return;
+    const roundedSetting = Math.round(newSettingValue * 100) / 100;
+
+    const point = currentRun.dialPoints.find((p) => p.id === dialId);
+    if (!point) return;
+    const oldSetting = point.dialSetting;
+
+    if (Math.abs(oldSetting - roundedSetting) < 0.001) {
+      setEditingDialValues((prev) => {
+        const next = { ...prev };
+        delete next[dialId];
+        return next;
+      });
+      return;
+    }
+
+    // Check duplicate
+    if (currentRun.dialPoints.some((p) => p.id !== dialId && Math.abs(p.dialSetting - roundedSetting) < 0.001)) {
+      alert(`Dial setting ${roundedSetting}% already exists in this test run.`);
+      return;
+    }
+
+    // Update across all runs to keep machine testing synchronized
+    const updatedRuns = runs.map((run) => {
+      const updatedPoints = run.dialPoints.map((p) => {
+        if (p.id === dialId || Math.abs(p.dialSetting - oldSetting) < 0.001) {
+          return {
+            ...p,
+            dialSetting: roundedSetting
+          };
+        }
+        return p;
+      });
+      return {
+        ...run,
+        dialPoints: updatedPoints.sort((a, b) => a.dialSetting - b.dialSetting)
+      };
+    });
+
+    onChangeRuns(updatedRuns);
+    setEditingDialValues((prev) => {
+      const next = { ...prev };
+      delete next[dialId];
+      return next;
+    });
+  };
+
+  const handleDialInputChange = (dialId: string, rawVal: string) => {
+    setEditingDialValues((prev) => ({ ...prev, [dialId]: rawVal }));
+  };
+
+  const handleDialInputCommit = (dialId: string) => {
+    const raw = editingDialValues[dialId];
+    if (raw === undefined || raw.trim() === '') {
+      setEditingDialValues((prev) => {
+        const next = { ...prev };
+        delete next[dialId];
+        return next;
+      });
+      return;
+    }
+    const val = parseFloat(raw);
+    if (!isNaN(val) && val > 0) {
+      handleUpdateDialSetting(dialId, val);
+    } else {
+      setEditingDialValues((prev) => {
+        const next = { ...prev };
+        delete next[dialId];
+        return next;
+      });
+    }
+  };
+
+  const handleResetDefaultDials = () => {
+    if (window.confirm('Reset dial settings back to standard percentages (0.2%, 0.6%, 1%, 2%, 3%, 4%, 5%)?')) {
+      const standardDials = [0.2, 0.6, 1.0, 2.0, 3.0, 4.0, 5.0];
+      const updatedRuns = runs.map((run) => ({
+        ...run,
+        dialPoints: standardDials.map((dial) => {
+          const existing = run.dialPoints.find((p) => Math.abs(p.dialSetting - dial) < 0.001);
+          return {
+            id: existing ? existing.id : `dial-${dial}-${Date.now()}-${Math.random().toString(36).slice(2, 6)}`,
+            dialSetting: dial,
+            measured: existing?.measured
+          };
+        })
+      }));
+      onChangeRuns(updatedRuns);
+      setEditingDialValues({});
+    }
+  };
+
   const handleAddRun = () => {
     const nextFlow = runs.length === 1 ? 4.0 : runs.length === 2 ? 2.0 : 0.5;
     const newRun: TestRun = {
@@ -77,7 +172,7 @@ export const FlowrateTestTable: React.FC<FlowrateTestTableProps> = ({
       carrierGas: currentRun.carrierGas || '100% Oxygen (O2)',
       // Copy dial setting templates with blank measurements
       dialPoints: currentRun.dialPoints.map((p) => ({
-        id: `dial-${p.dialSetting}-${Date.now()}`,
+        id: `dial-${p.dialSetting}-${Date.now()}-${Math.random().toString(36).slice(2, 6)}`,
         dialSetting: p.dialSetting,
         measured: undefined
       }))
@@ -104,28 +199,37 @@ export const FlowrateTestTable: React.FC<FlowrateTestTableProps> = ({
     e.preventDefault();
     const val = parseFloat(customDialInput);
     if (isNaN(val) || val <= 0) return;
-    if (currentRun.dialPoints.some((p) => p.dialSetting === val)) {
-      alert(`Dial setting ${val}% already exists in this run.`);
+    const rounded = Math.round(val * 100) / 100;
+    if (currentRun.dialPoints.some((p) => Math.abs(p.dialSetting - rounded) < 0.001)) {
+      alert(`Dial setting ${rounded}% already exists in this run.`);
       return;
     }
-    const newPoint: DialPoint = {
-      id: `dial-${val}-${Date.now()}`,
-      dialSetting: val,
-      measured: undefined
-    };
-    // Insert sorted
-    const updatedPoints = [...currentRun.dialPoints, newPoint].sort(
-      (a, b) => a.dialSetting - b.dialSetting
-    );
-    const updated = runs.map((r, i) => (i === activeRunIndex ? { ...r, dialPoints: updatedPoints } : r));
+    const newPointId = `dial-${rounded}-${Date.now()}-${Math.random().toString(36).slice(2, 6)}`;
+    const updated = runs.map((r) => {
+      const newPoint: DialPoint = {
+        id: newPointId,
+        dialSetting: rounded,
+        measured: undefined
+      };
+      return {
+        ...r,
+        dialPoints: [...r.dialPoints, newPoint].sort((a, b) => a.dialSetting - b.dialSetting)
+      };
+    });
     onChangeRuns(updated);
     setCustomDialInput('');
   };
 
   const handleDeleteDialPoint = (dialId: string) => {
     if (currentRun.dialPoints.length <= 1) return;
-    const updatedPoints = currentRun.dialPoints.filter((p) => p.id !== dialId);
-    const updated = runs.map((r, i) => (i === activeRunIndex ? { ...r, dialPoints: updatedPoints } : r));
+    const point = currentRun.dialPoints.find((p) => p.id === dialId);
+    if (!point) return;
+    const settingToDelete = point.dialSetting;
+
+    const updated = runs.map((r) => ({
+      ...r,
+      dialPoints: r.dialPoints.filter((p) => p.id !== dialId && Math.abs(p.dialSetting - settingToDelete) >= 0.001)
+    }));
     onChangeRuns(updated);
   };
 
@@ -211,7 +315,7 @@ export const FlowrateTestTable: React.FC<FlowrateTestTableProps> = ({
 
             <div>
               <label className="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-1">
-                Absolute Floor % (for 0.2 / 0.6)
+                Absolute Floor % (for low dials: 0.2, 0.6, etc.)
               </label>
               <div className="flex items-center gap-2">
                 <input
@@ -370,8 +474,8 @@ export const FlowrateTestTable: React.FC<FlowrateTestTableProps> = ({
             </tr>
           </thead>
           <tbody className="divide-y divide-[#1b323e]/60 text-sm">
-            {runEvaluation.evaluations.map((evalPoint) => {
-              const point = currentRun.dialPoints.find((p) => p.dialSetting === evalPoint.dialSetting)!;
+            {currentRun.dialPoints.map((point, idx) => {
+              const evalPoint = runEvaluation.evaluations[idx] || evaluatePoint(point.dialSetting, point.measured, tolerance);
               const hasVal = evalPoint.measured !== null;
               const isPass = evalPoint.status === 'PASS';
               const isFail = evalPoint.status === 'FAIL';
@@ -389,19 +493,82 @@ export const FlowrateTestTable: React.FC<FlowrateTestTableProps> = ({
                 >
                   
                   {/* Dial Setting Column */}
-                  <td className="py-3.5 px-4 sm:px-6">
-                    <div className="flex items-center gap-2">
-                      <span className="inline-flex items-center justify-center w-12 py-1 rounded-lg bg-[#14232b] border border-[#1e3542] text-sm font-bold text-[#09b0bb] font-mono">
-                        {point.dialSetting.toFixed(point.dialSetting < 1 ? 1 : 1)}%
-                      </span>
-                      <button
-                        type="button"
-                        onClick={() => handleSetExact(point.id, point.dialSetting)}
-                        className="text-[11px] text-slate-500 hover:text-[#09b0bb] transition cursor-pointer"
-                        title={`Quick set measured = ${point.dialSetting}%`}
-                      >
-                        = dial
-                      </button>
+                  <td className="py-3 px-4 sm:px-6 align-top">
+                    <div className="space-y-1.5">
+                      <div className="flex items-center gap-2">
+                        <div className="relative flex items-center">
+                          <input
+                            type="number"
+                            step="0.05"
+                            min="0.05"
+                            max="30"
+                            value={editingDialValues[point.id] !== undefined ? editingDialValues[point.id] : point.dialSetting}
+                            onChange={(e) => handleDialInputChange(point.id, e.target.value)}
+                            onBlur={() => handleDialInputCommit(point.id)}
+                            onKeyDown={(e) => {
+                              if (e.key === 'Enter') {
+                                e.currentTarget.blur();
+                              }
+                            }}
+                            className="w-16 px-2 py-1 bg-[#0a1114] hover:bg-[#14232b] focus:bg-[#0a1114] border border-[#1e3542] focus:border-[#09b0bb] rounded-lg text-sm font-bold text-[#09b0bb] font-mono text-center focus:outline-none focus:ring-1 focus:ring-[#09b0bb] transition"
+                            title="Click or type to adjust this dial setting"
+                          />
+                          <span className="text-xs text-slate-400 font-bold ml-1">%</span>
+                        </div>
+
+                        <button
+                          type="button"
+                          onClick={() => handleSetExact(point.id, point.dialSetting)}
+                          className="text-[11px] text-slate-500 hover:text-[#09b0bb] transition cursor-pointer px-1.5 py-0.5 rounded hover:bg-[#14232b]"
+                          title={`Quick set measured = ${point.dialSetting}%`}
+                        >
+                          = dial
+                        </button>
+                      </div>
+
+                      {/* Quick Presets for Slot 1 (Default: 0.2%) */}
+                      {idx === 0 && (
+                        <div className="flex items-center gap-1 flex-wrap pt-0.5">
+                          <span className="text-[10px] text-slate-500 uppercase tracking-wider font-semibold">0.2 Options:</span>
+                          {[0.1, 0.2, 0.25, 0.4, 0.5].map((pval) => (
+                            <button
+                              key={pval}
+                              type="button"
+                              onClick={() => handleUpdateDialSetting(point.id, pval)}
+                              className={`text-[10px] px-1.5 py-0.5 rounded font-mono transition cursor-pointer ${
+                                Math.abs(point.dialSetting - pval) < 0.001
+                                  ? 'bg-[#09b0bb]/25 text-[#09b0bb] font-bold border border-[#09b0bb]/60'
+                                  : 'bg-[#14232b] hover:bg-[#1b323e] text-slate-400 hover:text-white border border-[#1e3542]'
+                              }`}
+                              title={`Set dial to ${pval}%`}
+                            >
+                              {pval}%
+                            </button>
+                          ))}
+                        </div>
+                      )}
+
+                      {/* Quick Presets for Slot 2 (Default: 0.6%) */}
+                      {idx === 1 && (
+                        <div className="flex items-center gap-1 flex-wrap pt-0.5">
+                          <span className="text-[10px] text-slate-500 uppercase tracking-wider font-semibold">0.6 Options:</span>
+                          {[0.4, 0.5, 0.6, 0.75, 0.8].map((pval) => (
+                            <button
+                              key={pval}
+                              type="button"
+                              onClick={() => handleUpdateDialSetting(point.id, pval)}
+                              className={`text-[10px] px-1.5 py-0.5 rounded font-mono transition cursor-pointer ${
+                                Math.abs(point.dialSetting - pval) < 0.001
+                                  ? 'bg-[#09b0bb]/25 text-[#09b0bb] font-bold border border-[#09b0bb]/60'
+                                  : 'bg-[#14232b] hover:bg-[#1b323e] text-slate-400 hover:text-white border border-[#1e3542]'
+                              }`}
+                              title={`Set dial to ${pval}%`}
+                            >
+                              {pval}%
+                            </button>
+                          ))}
+                        </div>
+                      )}
                     </div>
                   </td>
 
@@ -501,14 +668,14 @@ export const FlowrateTestTable: React.FC<FlowrateTestTableProps> = ({
                     )}
                   </td>
 
-                  {/* Delete custom point button (only if not standard) */}
-                  <td className="py-3.5 px-2 text-right">
-                    {![0.2, 0.6, 1, 2, 3, 4, 5].includes(point.dialSetting) && (
+                  {/* Delete point button */}
+                  <td className="py-3 px-2 text-right align-top">
+                    {currentRun.dialPoints.length > 1 && (
                       <button
                         type="button"
                         onClick={() => handleDeleteDialPoint(point.id)}
                         className="p-1 text-slate-600 hover:text-rose-400 rounded transition cursor-pointer"
-                        title="Remove custom dial point"
+                        title={`Remove ${point.dialSetting}% dial point`}
                       >
                         <Trash2 className="w-3.5 h-3.5" />
                       </button>
@@ -522,7 +689,7 @@ export const FlowrateTestTable: React.FC<FlowrateTestTableProps> = ({
         </table>
       </div>
 
-      {/* Add Custom Dial Setting Footer */}
+      {/* Add Custom Dial Setting & Reset Footer */}
       <div className="p-4 bg-[#0a1114]/60 border-t border-[#1b323e] flex flex-wrap items-center justify-between gap-3 text-xs">
         <form onSubmit={handleAddCustomDial} className="flex items-center gap-2">
           <span className="text-slate-400">Add Extra Dial Setting:</span>
@@ -544,9 +711,20 @@ export const FlowrateTestTable: React.FC<FlowrateTestTableProps> = ({
           </button>
         </form>
 
-        <p className="text-[11px] text-slate-500 m-0">
-          Tip: Standard dial percentages (0.2, 0.6, 1, 2, 3, 4, 5) are preserved.
-        </p>
+        <div className="flex items-center gap-3">
+          <button
+            type="button"
+            onClick={handleResetDefaultDials}
+            className="px-2.5 py-1 rounded-lg bg-[#14232b] hover:bg-[#1b323e] text-slate-400 hover:text-slate-200 border border-[#1e3542] text-[11px] transition cursor-pointer flex items-center gap-1.5"
+            title="Reset to standard default dial percentages (0.2, 0.6, 1, 2, 3, 4, 5%)"
+          >
+            <RotateCcw className="w-3 h-3" />
+            <span>Reset Standard Dials</span>
+          </button>
+          <p className="text-[11px] text-slate-500 m-0 hidden sm:block">
+            Tip: Adjust 0.2% and 0.6% using presets or direct input to match your vaporiser.
+          </p>
+        </div>
       </div>
 
     </div>

@@ -285,8 +285,8 @@ export async function generateVaporiserPdf({
     const run = runs[rIdx];
     const runEval = evaluation.runs.find((e) => e.runId === run.id);
 
-    run.dialPoints.forEach((point) => {
-      const evalPoint = runEval?.evaluations.find((p) => p.dialSetting === point.dialSetting);
+    run.dialPoints.forEach((point, pIdx) => {
+      const evalPoint = runEval?.evaluations[pIdx] || runEval?.evaluations.find((p) => Math.abs(p.dialSetting - point.dialSetting) < 0.001);
       const measuredStr = point.measured !== undefined && point.measured !== null
         ? `${Number(point.measured).toFixed(2)}%`
         : 'Pending';
@@ -301,9 +301,13 @@ export async function generateVaporiserPdf({
 
       const statusStr = evalPoint ? evalPoint.status : 'PENDING';
 
+      const dialLabel = Number.isInteger(point.dialSetting)
+        ? `${point.dialSetting.toFixed(1)}%`
+        : `${Number(point.dialSetting.toFixed(2))}%`;
+
       tableRows.push([
         `Run ${rIdx + 1} (${run.flowrate} L/min)`,
-        `${point.dialSetting.toFixed(1)}%`,
+        dialLabel,
         measuredStr,
         rangeStr,
         devStr,
