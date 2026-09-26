@@ -248,7 +248,7 @@ export async function generateVaporiserPdf({
   doc.text(`Machine: ${machName} (S/N: ${machine.machineSerial || 'N/A'})`, col2X, infoY);
   infoY += 3.8;
   if (machine.machineAssetTag) {
-    doc.text(`Asset Tag #: ${machine.machineAssetTag}`, col2X, infoY);
+    doc.text(`Asset Tag: ${machine.machineAssetTag}`, col2X, infoY);
     infoY += 3.8;
   }
   doc.text(`Vaporiser Model: ${machine.vaporiserModel || 'N/A'}`, col2X, infoY);

@@ -424,7 +424,7 @@ export const MachineDetailsCard: React.FC<MachineDetailsCardProps> = ({
 
             <div>
               <label className="block text-xs text-slate-300 mb-1 flex items-center gap-1">
-                <Tag className="w-3 h-3 text-slate-400" /> Hospital Asset Tag #
+                <Tag className="w-3 h-3 text-slate-400" /> Asset Tag
               </label>
               <input
                 type="text"
