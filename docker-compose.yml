@@ -1,0 +1,11 @@
+services:
+  vetvap:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: vetvap-tester
+    restart: unless-stopped
+    ports:
+      - "80:80"
+    environment:
+      - NODE_ENV=production
