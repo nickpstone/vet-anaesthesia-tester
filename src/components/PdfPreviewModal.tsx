@@ -63,14 +63,14 @@ export const PdfPreviewModal: React.FC<PdfPreviewModalProps> = ({
   };
 
   return (
-    <div className="fixed inset-0 z-50 overflow-hidden bg-black/80 backdrop-blur-sm flex items-center justify-center p-2 sm:p-4">
-      <div className="relative bg-[#0f1a20] border border-[#1b323e] rounded-2xl w-full max-w-4xl h-[90vh] flex flex-col shadow-2xl overflow-hidden animate-in fade-in zoom-in-95 duration-200">
+    <div className="fixed inset-0 z-50 overflow-hidden bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-2 sm:p-4">
+      <div className="relative bg-white border border-slate-200 rounded-2xl w-full max-w-4xl h-[90vh] flex flex-col shadow-2xl overflow-hidden animate-in fade-in zoom-in-95 duration-200">
         
         {/* Header */}
-        <div className="flex items-center justify-between px-4 sm:px-6 py-3.5 border-b border-[#1b323e] bg-[#0c151a]">
+        <div className="flex items-center justify-between px-4 sm:px-6 py-3.5 border-b border-slate-200 bg-slate-50">
           <div className="flex items-center gap-2">
             <FileText className="w-5 h-5 text-[#09b0bb]" />
-            <h2 className="text-base font-bold text-white m-0 truncate">
+            <h2 className="text-base font-bold text-slate-900 m-0 truncate">
               PDF Calibration Certificate Preview
             </h2>
           </div>
@@ -80,16 +80,16 @@ export const PdfPreviewModal: React.FC<PdfPreviewModalProps> = ({
               type="button"
               onClick={handlePrint}
               disabled={loading}
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#14232b] hover:bg-[#1b323e] text-slate-300 text-xs font-medium border border-[#1e3542] transition cursor-pointer disabled:opacity-50"
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white hover:bg-slate-50 text-slate-700 text-xs font-semibold border border-slate-300 transition cursor-pointer disabled:opacity-50 shadow-2xs"
             >
-              <Printer className="w-3.5 h-3.5" />
+              <Printer className="w-3.5 h-3.5 text-slate-500" />
               <span className="hidden sm:inline">Print</span>
             </button>
             <button
               type="button"
               onClick={handleDownload}
               disabled={loading}
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#09b0bb] hover:bg-[#038c97] text-white text-xs font-semibold shadow-md shadow-[#09b0bb]/20 transition cursor-pointer disabled:opacity-50"
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#09b0bb] hover:bg-[#038c97] text-white text-xs font-semibold shadow-xs transition cursor-pointer disabled:opacity-50"
             >
               <Download className="w-3.5 h-3.5" />
               <span>Download</span>
@@ -97,7 +97,7 @@ export const PdfPreviewModal: React.FC<PdfPreviewModalProps> = ({
             <button
               type="button"
               onClick={onClose}
-              className="text-slate-400 hover:text-white p-1.5 rounded-lg hover:bg-[#14232b] transition cursor-pointer"
+              className="text-slate-400 hover:text-slate-700 p-1.5 rounded-lg hover:bg-slate-100 transition cursor-pointer"
             >
               <X className="w-5 h-5" />
             </button>
@@ -105,11 +105,11 @@ export const PdfPreviewModal: React.FC<PdfPreviewModalProps> = ({
         </div>
 
         {/* PDF Viewer Body */}
-        <div className="flex-1 bg-slate-950 relative overflow-hidden flex items-center justify-center">
+        <div className="flex-1 bg-slate-200 relative overflow-hidden flex items-center justify-center">
           {loading ? (
-            <div className="flex flex-col items-center gap-3 text-slate-400">
+            <div className="flex flex-col items-center gap-3 text-slate-600">
               <Loader2 className="w-8 h-8 text-[#09b0bb] animate-spin" />
-              <span className="text-sm font-medium">Generating PDF document...</span>
+              <span className="text-sm font-semibold">Generating PDF document...</span>
             </div>
           ) : pdfUrl ? (
             <iframe
@@ -119,7 +119,7 @@ export const PdfPreviewModal: React.FC<PdfPreviewModalProps> = ({
               title="PDF Report Preview"
             />
           ) : (
-            <div className="text-rose-400 text-sm">Failed to generate PDF preview.</div>
+            <div className="text-rose-600 text-sm font-semibold">Failed to generate PDF preview.</div>
           )}
         </div>
 
