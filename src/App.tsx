@@ -8,6 +8,7 @@ import { ActionToolbar } from './components/ActionToolbar';
 import { CompanyModal } from './components/CompanyModal';
 import { HistoryModal } from './components/HistoryModal';
 import { PdfPreviewModal } from './components/PdfPreviewModal';
+import { ManageVaporiserModelsModal } from './components/ManageVaporiserModelsModal';
 
 import { 
   CompanyProfile, 
@@ -26,11 +27,19 @@ import {
   clearCurrentDraft,
   loadReportsHistory,
   saveReportToHistory,
-  deleteReportFromHistory
+  deleteReportFromHistory,
+  loadVaporiserModels,
+  saveVaporiserModels
 } from './utils/storage';
 import { generateVaporiserPdf } from './utils/pdfGenerator';
 import { shareOrEmailReport, downloadPdfBlob } from './utils/emailShare';
-import { createDefaultDialPoints, createInitialMachineInfo, DEFAULT_TOLERANCE_CONFIG, getTodayDateString } from './utils/constants';
+import { 
+  createDefaultDialPoints, 
+  createInitialMachineInfo, 
+  DEFAULT_TOLERANCE_CONFIG, 
+  getTodayDateString,
+  COMMON_VAPORISER_MODELS
+} from './utils/constants';
 
 export const App: React.FC = () => {
   // Load initial state
@@ -39,11 +48,13 @@ export const App: React.FC = () => {
   const [runs, setRuns] = useState<TestRun[]>(initialDraft.runs);
   const [tolerance, setTolerance] = useState<ToleranceConfig>(initialDraft.tolerance);
   const [company, setCompany] = useState<CompanyProfile>(loadCompanyProfile);
+  const [vaporiserModels, setVaporiserModels] = useState<string[]>(loadVaporiserModels);
 
   // Modals
   const [isCompanyModalOpen, setIsCompanyModalOpen] = useState(false);
   const [isHistoryModalOpen, setIsHistoryModalOpen] = useState(false);
   const [isPdfPreviewOpen, setIsPdfPreviewOpen] = useState(false);
+  const [isManageModelsOpen, setIsManageModelsOpen] = useState(false);
   const [reports, setReports] = useState<SavedReport[]>(loadReportsHistory);
 
   // Status & Loaders
@@ -71,6 +82,38 @@ export const App: React.FC = () => {
     setCompany(updated);
     saveCompanyProfile(updated);
     showToast('Company details & logo saved.');
+  };
+
+  // Vaporiser Models Management
+  const handleAddVaporiserModel = (modelName: string): boolean => {
+    const trimmed = modelName.trim();
+    if (!trimmed) return false;
+    if (vaporiserModels.some((m) => m.toLowerCase() === trimmed.toLowerCase())) {
+      showToast(`Model "${trimmed}" is already in the list.`);
+      return false;
+    }
+    const updated = [...vaporiserModels, trimmed];
+    setVaporiserModels(updated);
+    saveVaporiserModels(updated);
+    showToast(`Added "${trimmed}" to vaporiser models.`);
+    return true;
+  };
+
+  const handleRemoveVaporiserModel = (modelName: string) => {
+    const updated = vaporiserModels.filter((m) => m.toLowerCase() !== modelName.toLowerCase());
+    setVaporiserModels(updated);
+    saveVaporiserModels(updated);
+    if (machine.vaporiserModel.toLowerCase() === modelName.toLowerCase()) {
+      setMachine((prev) => ({ ...prev, vaporiserModel: updated[0] || '' }));
+    }
+    showToast(`Removed "${modelName}" from vaporiser models.`);
+  };
+
+  const handleResetVaporiserModels = () => {
+    const defaults = [...COMMON_VAPORISER_MODELS];
+    setVaporiserModels(defaults);
+    saveVaporiserModels(defaults);
+    showToast('Reset vaporiser models to standard defaults.');
   };
 
   // Reset / New Test
@@ -308,6 +351,10 @@ export const App: React.FC = () => {
         <MachineDetailsCard
           machine={machine}
           onChange={setMachine}
+          vaporiserModels={vaporiserModels}
+          onOpenManageModels={() => setIsManageModelsOpen(true)}
+          onAddModel={handleAddVaporiserModel}
+          onRemoveModel={handleRemoveVaporiserModel}
         />
 
         {/* 2. Flowrate & Dial Settings Test Table */}
@@ -359,6 +406,15 @@ export const App: React.FC = () => {
         onClose={() => setIsPdfPreviewOpen(false)}
         pdfDocPromise={getPdfDocPromise}
         filename={pdfFilename}
+      />
+
+      <ManageVaporiserModelsModal
+        isOpen={isManageModelsOpen}
+        onClose={() => setIsManageModelsOpen(false)}
+        models={vaporiserModels}
+        onAddModel={handleAddVaporiserModel}
+        onRemoveModel={handleRemoveVaporiserModel}
+        onResetModels={handleResetVaporiserModels}
       />
 
       {/* Floating Toast Notification */}

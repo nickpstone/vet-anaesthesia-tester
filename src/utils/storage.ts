@@ -1,12 +1,18 @@
 import { CompanyProfile, MachineInfo, SavedReport, TestRun, ToleranceConfig } from '../types';
-import { createDefaultDialPoints, createInitialMachineInfo, DEFAULT_TOLERANCE_CONFIG } from './constants';
+import { 
+  createDefaultDialPoints, 
+  createInitialMachineInfo, 
+  DEFAULT_TOLERANCE_CONFIG,
+  COMMON_VAPORISER_MODELS
+} from './constants';
 
 const KEYS = {
   DRAFT_MACHINE: 'vetvap_draft_machine',
   DRAFT_RUNS: 'vetvap_draft_runs',
   DRAFT_TOLERANCE: 'vetvap_draft_tolerance',
   COMPANY_PROFILE: 'vetvap_company_profile',
-  REPORTS_HISTORY: 'vetvap_reports_history'
+  REPORTS_HISTORY: 'vetvap_reports_history',
+  VAPORISER_MODELS: 'vetvap_vaporiser_models'
 };
 
 export const defaultCompanyProfile: CompanyProfile = {
@@ -141,3 +147,27 @@ export function deleteReportFromHistory(id: string): void {
     console.warn('Failed to delete report', err);
   }
 }
+
+export function loadVaporiserModels(): string[] {
+  try {
+    const raw = localStorage.getItem(KEYS.VAPORISER_MODELS);
+    if (raw) {
+      const parsed = JSON.parse(raw);
+      if (Array.isArray(parsed) && parsed.length > 0) {
+        return parsed;
+      }
+    }
+  } catch (err) {
+    console.warn('Failed to load vaporiser models', err);
+  }
+  return [...COMMON_VAPORISER_MODELS];
+}
+
+export function saveVaporiserModels(models: string[]): void {
+  try {
+    localStorage.setItem(KEYS.VAPORISER_MODELS, JSON.stringify(models));
+  } catch (err) {
+    console.warn('Failed to save vaporiser models', err);
+  }
+}
+
