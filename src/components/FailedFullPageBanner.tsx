@@ -41,7 +41,7 @@ export const FailedFullPageBanner: React.FC<FailedFullPageBannerProps> = ({ eval
       </div>
 
       {/* Main Failed Banner Card */}
-      <div className="bg-slate-900 border-2 border-rose-600/80 rounded-b-2xl p-6 sm:p-8 shadow-2xl shadow-rose-950/50 relative overflow-hidden">
+      <div className="bg-[#0f1a20] border-2 border-rose-600/80 rounded-b-2xl p-6 sm:p-8 shadow-2xl shadow-rose-950/50 relative overflow-hidden">
         
         {/* Subtle background diagonal red accent pattern */}
         <div className="absolute inset-0 opacity-5 pointer-events-none bg-[repeating-linear-gradient(45deg,#ef4444_0,#ef4444_20px,transparent_20px,transparent_40px)]" />
@@ -77,7 +77,7 @@ export const FailedFullPageBanner: React.FC<FailedFullPageBannerProps> = ({ eval
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2">
               {failedItems.map((item, idx) => (
-                <div key={idx} className="bg-slate-900/90 border border-rose-800/60 rounded-lg p-2.5 text-xs">
+                <div key={idx} className="bg-[#0a1114]/90 border border-rose-800/60 rounded-lg p-2.5 text-xs">
                   <div className="font-semibold text-white flex justify-between">
                     <span>Flow @ {item.runFlow} L/min</span>
                     <span className="text-rose-400 font-mono font-bold">FAIL</span>

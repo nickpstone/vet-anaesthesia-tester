@@ -89,12 +89,12 @@ export const MachineDetailsCard: React.FC<MachineDetailsCardProps> = ({
   ];
 
   return (
-    <div className="bg-slate-900 border border-slate-800 rounded-2xl p-5 sm:p-6 shadow-xl space-y-6">
+    <div className="bg-[#0f1a20] border border-[#1b323e] rounded-2xl p-5 sm:p-6 shadow-xl space-y-6">
       
       {/* Section Title */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-4 border-b border-slate-800 gap-2">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-4 border-b border-[#1b323e] gap-2">
         <div className="flex items-center gap-2.5">
-          <div className="p-2 rounded-xl bg-cyan-500/10 text-cyan-400 border border-cyan-500/20">
+          <div className="p-2 rounded-xl bg-[#09b0bb]/10 text-[#09b0bb] border border-[#09b0bb]/25">
             <Activity className="w-5 h-5" />
           </div>
           <div>
@@ -121,8 +121,8 @@ export const MachineDetailsCard: React.FC<MachineDetailsCardProps> = ({
       </div>
 
       {/* 1. MACHINE OWNER / CLIENT COMPANY DETAILS */}
-      <div className="bg-slate-800/40 rounded-xl p-4 border border-slate-700/60 space-y-3">
-        <div className="flex items-center gap-2 text-cyan-400 font-bold text-xs uppercase tracking-wider">
+      <div className="bg-[#14232b]/50 rounded-xl p-4 border border-[#1b323e] space-y-3">
+        <div className="flex items-center gap-2 text-[#09b0bb] font-bold text-xs uppercase tracking-wider">
           <Building className="w-4 h-4" />
           Client / Machine Owner Company Details (Whose machine is being tested)
         </div>
@@ -138,7 +138,7 @@ export const MachineDetailsCard: React.FC<MachineDetailsCardProps> = ({
               value={machine.ownerCompanyName || machine.clinicName || ''}
               onChange={(e) => handleFieldChange('ownerCompanyName', e.target.value)}
               placeholder="e.g. Riverbend Animal Hospital & Specialty Surgery"
-              className="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-lg text-sm text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-cyan-500"
+              className="w-full px-3 py-2 bg-[#0a1114] border border-[#1e3542] rounded-lg text-sm text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-[#09b0bb]"
             />
           </div>
 
@@ -151,7 +151,7 @@ export const MachineDetailsCard: React.FC<MachineDetailsCardProps> = ({
               value={machine.ownerDepartment || ''}
               onChange={(e) => handleFieldChange('ownerDepartment', e.target.value)}
               placeholder="e.g. Operating Theatre 2 / Dental Suite"
-              className="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-lg text-sm text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-cyan-500"
+              className="w-full px-3 py-2 bg-[#0a1114] border border-[#1e3542] rounded-lg text-sm text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-[#09b0bb]"
             />
           </div>
         </div>
@@ -166,7 +166,7 @@ export const MachineDetailsCard: React.FC<MachineDetailsCardProps> = ({
               value={machine.ownerAddress || machine.clinicAddress || ''}
               onChange={(e) => handleFieldChange('ownerAddress', e.target.value)}
               placeholder="e.g. 450 Parkland Rd, Brisbane QLD 4000"
-              className="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-lg text-sm text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-cyan-500"
+              className="w-full px-3 py-2 bg-[#0a1114] border border-[#1e3542] rounded-lg text-sm text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-[#09b0bb]"
             />
           </div>
 
@@ -179,7 +179,7 @@ export const MachineDetailsCard: React.FC<MachineDetailsCardProps> = ({
               value={machine.ownerContactPerson || ''}
               onChange={(e) => handleFieldChange('ownerContactPerson', e.target.value)}
               placeholder="e.g. Dr. Sarah Jenkins (Head Vet)"
-              className="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-lg text-sm text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-cyan-500"
+              className="w-full px-3 py-2 bg-[#0a1114] border border-[#1e3542] rounded-lg text-sm text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-[#09b0bb]"
             />
           </div>
 
@@ -192,7 +192,7 @@ export const MachineDetailsCard: React.FC<MachineDetailsCardProps> = ({
               value={machine.ownerContactEmail || machine.clinicContact || ''}
               onChange={(e) => handleFieldChange('ownerContactEmail', e.target.value)}
               placeholder="e.g. theatre@riverbendvet.com.au"
-              className="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-lg text-sm text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-cyan-500"
+              className="w-full px-3 py-2 bg-[#0a1114] border border-[#1e3542] rounded-lg text-sm text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-[#09b0bb]"
             />
           </div>
         </div>
@@ -201,7 +201,7 @@ export const MachineDetailsCard: React.FC<MachineDetailsCardProps> = ({
       {/* 2. ANAESTHETIC AGENT SELECTOR */}
       <div>
         <label className="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-2 flex items-center gap-1.5">
-          <Flame className="w-4 h-4 text-cyan-400" />
+          <Flame className="w-4 h-4 text-[#09b0bb]" />
           Anaesthetic Agent
         </label>
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-2">
@@ -215,8 +215,8 @@ export const MachineDetailsCard: React.FC<MachineDetailsCardProps> = ({
                 onClick={() => handleAgentChange(agent)}
                 className={`flex flex-col items-center justify-center p-3 rounded-xl border text-center transition-all cursor-pointer ${
                   isSelected
-                    ? 'border-white/40 ring-2 ring-cyan-400/80 bg-slate-800 shadow-lg'
-                    : 'border-slate-800 bg-slate-900/60 hover:bg-slate-800/60 hover:border-slate-700 text-slate-400'
+                    ? 'border-[#09b0bb] ring-2 ring-[#09b0bb]/60 bg-[#14232b] shadow-lg'
+                    : 'border-[#1b323e] bg-[#0a1114]/60 hover:bg-[#14232b]/60 hover:border-[#1e3542] text-slate-400'
                 }`}
               >
                 <div 
@@ -239,7 +239,7 @@ export const MachineDetailsCard: React.FC<MachineDetailsCardProps> = ({
       <div>
         <label className="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-2 flex items-center justify-between">
           <span className="flex items-center gap-1.5">
-            <Layers className="w-4 h-4 text-cyan-400" />
+            <Layers className="w-4 h-4 text-[#09b0bb]" />
             Vaporiser Mount System
           </span>
           <span className="text-[11px] text-slate-500 font-normal lowercase">Selectatec or Cagemount</span>
@@ -254,15 +254,15 @@ export const MachineDetailsCard: React.FC<MachineDetailsCardProps> = ({
                 onClick={() => handleFieldChange('mountType', type)}
                 className={`flex items-start gap-3 p-3.5 rounded-xl border text-left transition-all cursor-pointer ${
                   isSelected
-                    ? 'border-cyan-500/60 bg-cyan-950/20 ring-1 ring-cyan-500/50 shadow-md'
-                    : 'border-slate-800 bg-slate-800/40 hover:bg-slate-800/80 hover:border-slate-700'
+                    ? 'border-[#09b0bb]/60 bg-[#09b0bb]/10 ring-1 ring-[#09b0bb]/50 shadow-md'
+                    : 'border-[#1b323e] bg-[#14232b]/40 hover:bg-[#14232b]/80 hover:border-[#1e3542]'
                 }`}
               >
-                <div className={`mt-0.5 p-1 rounded-full ${isSelected ? 'bg-cyan-500 text-slate-950' : 'bg-slate-800 text-slate-500'}`}>
+                <div className={`mt-0.5 p-1 rounded-full ${isSelected ? 'bg-[#09b0bb] text-slate-950' : 'bg-[#0a1114] text-slate-500'}`}>
                   <CheckCircle className="w-4 h-4" />
                 </div>
                 <div>
-                  <div className={`text-sm font-semibold ${isSelected ? 'text-cyan-300' : 'text-slate-200'}`}>
+                  <div className={`text-sm font-semibold ${isSelected ? 'text-[#8dd4d9]' : 'text-slate-200'}`}>
                     {label}
                   </div>
                   <div className="text-xs text-slate-400 mt-0.5">
@@ -276,11 +276,11 @@ export const MachineDetailsCard: React.FC<MachineDetailsCardProps> = ({
       </div>
 
       {/* 4. HARDWARE SPECIFICS: MACHINE & VAPORISER */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2 border-t border-slate-800/60">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2 border-t border-[#1b323e]">
         
         {/* Left Column: Vaporiser Details */}
         <div className="space-y-3">
-          <h3 className="text-xs font-bold text-cyan-400 uppercase tracking-wider flex items-center gap-1.5">
+          <h3 className="text-xs font-bold text-[#09b0bb] uppercase tracking-wider flex items-center gap-1.5">
             <Gauge className="w-3.5 h-3.5" /> Vaporiser Under Test
           </h3>
 
@@ -292,7 +292,7 @@ export const MachineDetailsCard: React.FC<MachineDetailsCardProps> = ({
               <button
                 type="button"
                 onClick={onOpenManageModels}
-                className="text-xs text-cyan-400 hover:text-cyan-300 flex items-center gap-1 font-medium transition cursor-pointer"
+                className="text-xs text-[#09b0bb] hover:text-[#8dd4d9] flex items-center gap-1 font-medium transition cursor-pointer"
                 title="Add, remove, or customize the models list"
               >
                 <SlidersHorizontal className="w-3 h-3" />
@@ -305,7 +305,7 @@ export const MachineDetailsCard: React.FC<MachineDetailsCardProps> = ({
                 <select
                   value={machine.vaporiserModel}
                   onChange={(e) => handleFieldChange('vaporiserModel', e.target.value)}
-                  className="flex-1 px-3 py-2 bg-slate-800 border border-slate-700 rounded-lg text-sm text-white focus:outline-none focus:ring-2 focus:ring-cyan-500"
+                  className="flex-1 px-3 py-2 bg-[#0a1114] border border-[#1e3542] rounded-lg text-sm text-white focus:outline-none focus:ring-2 focus:ring-[#09b0bb]"
                 >
                   <option value="">-- Select Vaporiser Model --</option>
                   {vaporiserModels.map((model) => (
@@ -321,7 +321,7 @@ export const MachineDetailsCard: React.FC<MachineDetailsCardProps> = ({
                         onRemoveModel(machine.vaporiserModel);
                       }
                     }}
-                    className="p-2 text-slate-400 hover:text-rose-400 hover:bg-rose-500/10 rounded-lg border border-slate-700 transition cursor-pointer"
+                    className="p-2 text-slate-400 hover:text-rose-400 hover:bg-rose-500/10 rounded-lg border border-[#1e3542] transition cursor-pointer"
                     title={`Delete "${machine.vaporiserModel}" from list`}
                   >
                     <Trash2 className="w-4 h-4" />
@@ -335,14 +335,14 @@ export const MachineDetailsCard: React.FC<MachineDetailsCardProps> = ({
                   value={machine.vaporiserModel}
                   onChange={(e) => handleFieldChange('vaporiserModel', e.target.value)}
                   placeholder="Or type custom model name..."
-                  className="flex-1 px-3 py-1.5 bg-slate-800/60 border border-slate-700/80 rounded-lg text-xs text-slate-200 placeholder-slate-500 focus:outline-none focus:ring-1 focus:ring-cyan-500"
+                  className="flex-1 px-3 py-1.5 bg-[#0a1114]/60 border border-[#1e3542]/80 rounded-lg text-xs text-slate-200 placeholder-slate-500 focus:outline-none focus:ring-1 focus:ring-[#09b0bb]"
                 />
 
                 {machine.vaporiserModel.trim() && !vaporiserModels.some((m) => m.toLowerCase() === machine.vaporiserModel.trim().toLowerCase()) && (
                   <button
                     type="button"
                     onClick={() => onAddModel(machine.vaporiserModel.trim())}
-                    className="px-2.5 py-1.5 bg-cyan-600/30 hover:bg-cyan-600/50 text-cyan-300 border border-cyan-500/40 rounded-lg text-xs font-semibold flex items-center gap-1 transition cursor-pointer whitespace-nowrap"
+                    className="px-2.5 py-1.5 bg-[#09b0bb]/20 hover:bg-[#09b0bb]/30 text-[#8dd4d9] border border-[#09b0bb]/40 rounded-lg text-xs font-semibold flex items-center gap-1 transition cursor-pointer whitespace-nowrap"
                     title={`Save "${machine.vaporiserModel.trim()}" into permanent dropdown list`}
                   >
                     <Plus className="w-3.5 h-3.5" />
@@ -363,14 +363,14 @@ export const MachineDetailsCard: React.FC<MachineDetailsCardProps> = ({
               value={machine.vaporiserSerial}
               onChange={(e) => handleFieldChange('vaporiserSerial', e.target.value)}
               placeholder="e.g. VAP-94812-B"
-              className="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-lg text-sm text-white font-mono placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-cyan-500"
+              className="w-full px-3 py-2 bg-[#0a1114] border border-[#1e3542] rounded-lg text-sm text-white font-mono placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-[#09b0bb]"
             />
           </div>
         </div>
 
         {/* Right Column: Anaesthesia Machine Hardware */}
         <div className="space-y-3">
-          <h3 className="text-xs font-bold text-cyan-400 uppercase tracking-wider flex items-center gap-1.5">
+          <h3 className="text-xs font-bold text-[#09b0bb] uppercase tracking-wider flex items-center gap-1.5">
             <Building className="w-3.5 h-3.5" /> Anaesthesia Machine Details
           </h3>
 
@@ -384,7 +384,7 @@ export const MachineDetailsCard: React.FC<MachineDetailsCardProps> = ({
                 value={machine.machineManufacturer || ''}
                 onChange={(e) => handleFieldChange('machineManufacturer', e.target.value)}
                 placeholder="e.g. Vetland Medical"
-                className="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-lg text-sm text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-cyan-500"
+                className="w-full px-3 py-2 bg-[#0a1114] border border-[#1e3542] rounded-lg text-sm text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-[#09b0bb]"
               />
             </div>
 
@@ -398,7 +398,7 @@ export const MachineDetailsCard: React.FC<MachineDetailsCardProps> = ({
                 value={machine.machineModel}
                 onChange={(e) => handleFieldChange('machineModel', e.target.value)}
                 placeholder="e.g. Landmark V-1000"
-                className="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-lg text-sm text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-cyan-500"
+                className="w-full px-3 py-2 bg-[#0a1114] border border-[#1e3542] rounded-lg text-sm text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-[#09b0bb]"
               />
               <datalist id="machine-models">
                 {COMMON_MACHINE_MODELS.map((m) => (
@@ -418,7 +418,7 @@ export const MachineDetailsCard: React.FC<MachineDetailsCardProps> = ({
                 value={machine.machineSerial}
                 onChange={(e) => handleFieldChange('machineSerial', e.target.value)}
                 placeholder="e.g. MC-4028"
-                className="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-lg text-sm text-white font-mono placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-cyan-500"
+                className="w-full px-3 py-2 bg-[#0a1114] border border-[#1e3542] rounded-lg text-sm text-white font-mono placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-[#09b0bb]"
               />
             </div>
 
@@ -431,7 +431,7 @@ export const MachineDetailsCard: React.FC<MachineDetailsCardProps> = ({
                 value={machine.machineAssetTag || ''}
                 onChange={(e) => handleFieldChange('machineAssetTag', e.target.value)}
                 placeholder="e.g. ASSET-2024-08"
-                className="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-lg text-sm text-white font-mono placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-cyan-500"
+                className="w-full px-3 py-2 bg-[#0a1114] border border-[#1e3542] rounded-lg text-sm text-white font-mono placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-[#09b0bb]"
               />
             </div>
           </div>
@@ -440,11 +440,11 @@ export const MachineDetailsCard: React.FC<MachineDetailsCardProps> = ({
       </div>
 
       {/* 5. DATES & TECHNICIAN / ANALYSER INFO */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3 pt-3 border-t border-slate-800/60">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3 pt-3 border-t border-[#1b323e]">
         
         <div>
           <label className="block text-xs text-slate-300 mb-1 flex items-center gap-1 font-semibold">
-            <Calendar className="w-3.5 h-3.5 text-cyan-400" />
+            <Calendar className="w-3.5 h-3.5 text-[#09b0bb]" />
             Date of Test <span className="text-rose-400">*</span>
           </label>
           <input
@@ -452,7 +452,7 @@ export const MachineDetailsCard: React.FC<MachineDetailsCardProps> = ({
             required
             value={machine.testDate}
             onChange={(e) => handleFieldChange('testDate', e.target.value)}
-            className="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-lg text-sm text-white focus:outline-none focus:ring-2 focus:ring-cyan-500"
+            className="w-full px-3 py-2 bg-[#0a1114] border border-[#1e3542] rounded-lg text-sm text-white focus:outline-none focus:ring-2 focus:ring-[#09b0bb]"
           />
         </div>
 
@@ -465,13 +465,13 @@ export const MachineDetailsCard: React.FC<MachineDetailsCardProps> = ({
             type="date"
             value={machine.nextDueDate}
             onChange={(e) => handleFieldChange('nextDueDate', e.target.value)}
-            className="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-lg text-sm text-white focus:outline-none focus:ring-2 focus:ring-cyan-500"
+            className="w-full px-3 py-2 bg-[#0a1114] border border-[#1e3542] rounded-lg text-sm text-white focus:outline-none focus:ring-2 focus:ring-[#09b0bb]"
           />
         </div>
 
         <div>
           <label className="block text-xs text-slate-300 mb-1 flex items-center gap-1">
-            <UserCheck className="w-3.5 h-3.5 text-cyan-400" />
+            <UserCheck className="w-3.5 h-3.5 text-[#09b0bb]" />
             Tested By (Technician)
           </label>
           <input
@@ -479,7 +479,7 @@ export const MachineDetailsCard: React.FC<MachineDetailsCardProps> = ({
             value={machine.technicianName}
             onChange={(e) => handleFieldChange('technicianName', e.target.value)}
             placeholder="e.g. Nick / Certified Tech"
-            className="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-lg text-sm text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-cyan-500"
+            className="w-full px-3 py-2 bg-[#0a1114] border border-[#1e3542] rounded-lg text-sm text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-[#09b0bb]"
           />
         </div>
 
@@ -493,7 +493,7 @@ export const MachineDetailsCard: React.FC<MachineDetailsCardProps> = ({
             value={machine.gasAnalyserModel}
             onChange={(e) => handleFieldChange('gasAnalyserModel', e.target.value)}
             placeholder="e.g. Riken FI-8000"
-            className="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-lg text-sm text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-cyan-500"
+            className="w-full px-3 py-2 bg-[#0a1114] border border-[#1e3542] rounded-lg text-sm text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-[#09b0bb]"
           />
         </div>
 

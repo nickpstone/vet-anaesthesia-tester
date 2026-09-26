@@ -130,14 +130,14 @@ export const FlowrateTestTable: React.FC<FlowrateTestTableProps> = ({
   };
 
   return (
-    <div className="bg-slate-900 border border-slate-800 rounded-2xl shadow-xl overflow-hidden">
+    <div className="bg-[#0f1a20] border border-[#1b323e] rounded-2xl shadow-xl overflow-hidden">
       
       {/* Top Header & Run Navigation */}
-      <div className="p-5 sm:p-6 border-b border-slate-800 bg-slate-900/80">
+      <div className="p-5 sm:p-6 border-b border-[#1b323e] bg-[#0f1a20]/90">
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
           
           <div className="flex items-center gap-2.5">
-            <div className="p-2 rounded-xl bg-cyan-500/10 text-cyan-400 border border-cyan-500/20">
+            <div className="p-2 rounded-xl bg-[#09b0bb]/10 text-[#09b0bb] border border-[#09b0bb]/25">
               <Wind className="w-5 h-5" />
             </div>
             <div>
@@ -155,15 +155,15 @@ export const FlowrateTestTable: React.FC<FlowrateTestTableProps> = ({
             <button
               type="button"
               onClick={() => setShowToleranceSettings(!showToleranceSettings)}
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-medium border border-slate-700 transition cursor-pointer"
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#14232b] hover:bg-[#1b323e] text-slate-300 text-xs font-medium border border-[#1e3542] transition cursor-pointer"
             >
-              <Sliders className="w-3.5 h-3.5 text-cyan-400" />
+              <Sliders className="w-3.5 h-3.5 text-[#09b0bb]" />
               <span>Tolerance (±{tolerance.percentage}%)</span>
             </button>
             <button
               type="button"
               onClick={handleClearRunMeasurements}
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-800/80 hover:bg-rose-950/40 text-slate-400 hover:text-rose-300 text-xs font-medium border border-slate-700/80 transition cursor-pointer"
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#14232b]/80 hover:bg-rose-950/40 text-slate-400 hover:text-rose-300 text-xs font-medium border border-[#1e3542] transition cursor-pointer"
               title="Clear measured values for this run"
             >
               <RotateCcw className="w-3.5 h-3.5" />
@@ -175,7 +175,7 @@ export const FlowrateTestTable: React.FC<FlowrateTestTableProps> = ({
 
         {/* Collapsible Tolerance Settings */}
         {showToleranceSettings && (
-          <div className="mt-4 p-4 rounded-xl bg-slate-800/60 border border-slate-700/80 grid grid-cols-1 sm:grid-cols-3 gap-3 animate-in fade-in duration-150">
+          <div className="mt-4 p-4 rounded-xl bg-[#14232b]/60 border border-[#1e3542] grid grid-cols-1 sm:grid-cols-3 gap-3 animate-in fade-in duration-150">
             <div>
               <label className="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-1">
                 Tolerance Mode
@@ -183,7 +183,7 @@ export const FlowrateTestTable: React.FC<FlowrateTestTableProps> = ({
               <select
                 value={tolerance.mode}
                 onChange={(e) => onChangeTolerance({ ...tolerance, mode: e.target.value as any })}
-                className="w-full px-2.5 py-1.5 bg-slate-800 border border-slate-700 rounded-lg text-xs text-white"
+                className="w-full px-2.5 py-1.5 bg-[#0a1114] border border-[#1e3542] rounded-lg text-xs text-white focus:outline-none focus:ring-1 focus:ring-[#09b0bb]"
               >
                 <option value="iso">ISO Standard (Relative % + Absolute Floor)</option>
                 <option value="relative">Strict Relative % (No Floor)</option>
@@ -203,7 +203,7 @@ export const FlowrateTestTable: React.FC<FlowrateTestTableProps> = ({
                   step="1"
                   value={tolerance.percentage}
                   onChange={(e) => onChangeTolerance({ ...tolerance, percentage: parseFloat(e.target.value) || 15 })}
-                  className="w-full px-2.5 py-1.5 bg-slate-800 border border-slate-700 rounded-lg text-xs text-white"
+                  className="w-full px-2.5 py-1.5 bg-[#0a1114] border border-[#1e3542] rounded-lg text-xs text-white focus:outline-none focus:ring-1 focus:ring-[#09b0bb]"
                 />
                 <span className="text-xs text-slate-400 font-bold">%</span>
               </div>
@@ -221,7 +221,7 @@ export const FlowrateTestTable: React.FC<FlowrateTestTableProps> = ({
                   step="0.05"
                   value={tolerance.absoluteFloor}
                   onChange={(e) => onChangeTolerance({ ...tolerance, absoluteFloor: parseFloat(e.target.value) || 0.15 })}
-                  className="w-full px-2.5 py-1.5 bg-slate-800 border border-slate-700 rounded-lg text-xs text-white"
+                  className="w-full px-2.5 py-1.5 bg-[#0a1114] border border-[#1e3542] rounded-lg text-xs text-white focus:outline-none focus:ring-1 focus:ring-[#09b0bb]"
                 />
                 <span className="text-xs text-slate-400 font-bold">%</span>
               </div>
@@ -230,7 +230,7 @@ export const FlowrateTestTable: React.FC<FlowrateTestTableProps> = ({
         )}
 
         {/* Multi-flowrate Runs Tabs */}
-        <div className="flex items-center justify-between mt-5 pt-4 border-t border-slate-800/80 overflow-x-auto gap-2">
+        <div className="flex items-center justify-between mt-5 pt-4 border-t border-[#1b323e] overflow-x-auto gap-2">
           
           <div className="flex items-center gap-2">
             {runs.map((run, idx) => {
@@ -243,8 +243,8 @@ export const FlowrateTestTable: React.FC<FlowrateTestTableProps> = ({
                     onClick={() => setActiveRunIndex(idx)}
                     className={`flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-semibold transition cursor-pointer border ${
                       isActive
-                        ? 'bg-cyan-500/20 text-cyan-300 border-cyan-500/50 shadow-md'
-                        : 'bg-slate-800/70 hover:bg-slate-800 text-slate-400 border-slate-700'
+                        ? 'bg-[#09b0bb]/20 text-[#8dd4d9] border-[#09b0bb]/50 shadow-md'
+                        : 'bg-[#14232b]/70 hover:bg-[#14232b] text-slate-400 border-[#1e3542]'
                     }`}
                   >
                     <span>Run {idx + 1} ({run.flowrate} L/min)</span>
@@ -256,7 +256,7 @@ export const FlowrateTestTable: React.FC<FlowrateTestTableProps> = ({
                     <button
                       type="button"
                       onClick={() => handleRemoveRun(idx)}
-                      className="p-1 text-slate-500 hover:text-rose-400 ml-1 rounded"
+                      className="p-1 text-slate-500 hover:text-rose-400 ml-1 rounded cursor-pointer"
                       title="Remove this flowrate run"
                     >
                       <Trash2 className="w-3.5 h-3.5" />
@@ -270,7 +270,7 @@ export const FlowrateTestTable: React.FC<FlowrateTestTableProps> = ({
             <button
               type="button"
               onClick={handleAddRun}
-              className="flex items-center gap-1.5 px-3 py-2 rounded-xl bg-slate-800/50 hover:bg-slate-800 text-cyan-400 hover:text-cyan-300 text-xs font-medium border border-dashed border-slate-700 transition cursor-pointer whitespace-nowrap"
+              className="flex items-center gap-1.5 px-3 py-2 rounded-xl bg-[#14232b]/50 hover:bg-[#14232b] text-[#09b0bb] hover:text-[#8dd4d9] text-xs font-medium border border-dashed border-[#1e3542] transition cursor-pointer whitespace-nowrap"
             >
               <Plus className="w-3.5 h-3.5" />
               <span>Add Flowrate Run</span>
@@ -290,7 +290,7 @@ export const FlowrateTestTable: React.FC<FlowrateTestTableProps> = ({
                 {runEvaluation.isPassed ? 'RUN PASSED' : 'RUN FAILED'}
               </span>
             ) : (
-              <span className="px-2.5 py-1 rounded-md bg-slate-800 text-slate-400 border border-slate-700 font-medium flex items-center gap-1">
+              <span className="px-2.5 py-1 rounded-md bg-[#14232b] text-slate-400 border border-[#1e3542] font-medium flex items-center gap-1">
                 <Clock className="w-3.5 h-3.5" /> Pending Input
               </span>
             )}
@@ -299,12 +299,12 @@ export const FlowrateTestTable: React.FC<FlowrateTestTableProps> = ({
         </div>
 
         {/* Carrier Gas & Flowrate Controls for Active Run */}
-        <div className="mt-4 p-3.5 bg-slate-800/40 rounded-xl border border-slate-800 flex flex-wrap items-center justify-between gap-3">
+        <div className="mt-4 p-3.5 bg-[#14232b]/40 rounded-xl border border-[#1b323e] flex flex-wrap items-center justify-between gap-3">
           
           {/* Flowrate setting */}
           <div className="flex flex-wrap items-center gap-2">
             <span className="text-xs font-semibold text-slate-300 flex items-center gap-1">
-              <Wind className="w-3.5 h-3.5 text-cyan-400" /> Carrier Flowrate:
+              <Wind className="w-3.5 h-3.5 text-[#09b0bb]" /> Carrier Flowrate:
             </span>
             <div className="flex items-center gap-1">
               {standardFlowrates.map((fl) => (
@@ -314,8 +314,8 @@ export const FlowrateTestTable: React.FC<FlowrateTestTableProps> = ({
                   onClick={() => handleUpdateCurrentRunFlowrate(fl)}
                   className={`px-2.5 py-1 rounded-lg text-xs font-semibold transition cursor-pointer ${
                     currentRun.flowrate === fl
-                      ? 'bg-cyan-600 text-white shadow-sm'
-                      : 'bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700'
+                      ? 'bg-[#09b0bb] hover:bg-[#038c97] text-white shadow-sm'
+                      : 'bg-[#0a1114] hover:bg-[#14232b] text-slate-300 border border-[#1e3542]'
                   }`}
                 >
                   {fl} L/min
@@ -332,7 +332,7 @@ export const FlowrateTestTable: React.FC<FlowrateTestTableProps> = ({
                 step="0.1"
                 value={currentRun.flowrate}
                 onChange={(e) => handleUpdateCurrentRunFlowrate(parseFloat(e.target.value) || 1.0)}
-                className="w-16 px-2 py-1 bg-slate-800 border border-slate-700 rounded-lg text-xs text-white text-center font-mono"
+                className="w-16 px-2 py-1 bg-[#0a1114] border border-[#1e3542] rounded-lg text-xs text-white text-center font-mono focus:outline-none focus:ring-1 focus:ring-[#09b0bb]"
               />
               <span className="text-xs text-slate-400">L/min</span>
             </div>
@@ -344,7 +344,7 @@ export const FlowrateTestTable: React.FC<FlowrateTestTableProps> = ({
             <select
               value={currentRun.carrierGas}
               onChange={(e) => handleUpdateCarrierGas(e.target.value)}
-              className="px-2.5 py-1 bg-slate-800 border border-slate-700 rounded-lg text-xs text-slate-200"
+              className="px-2.5 py-1 bg-[#0a1114] border border-[#1e3542] rounded-lg text-xs text-slate-200 focus:outline-none focus:ring-1 focus:ring-[#09b0bb]"
             >
               <option value="100% Oxygen (O2)">100% Oxygen (O2)</option>
               <option value="Medical Air">Medical Air</option>
@@ -360,7 +360,7 @@ export const FlowrateTestTable: React.FC<FlowrateTestTableProps> = ({
       <div className="overflow-x-auto">
         <table className="w-full text-left border-collapse">
           <thead>
-            <tr className="border-b border-slate-800 bg-slate-900/90 text-[11px] font-bold text-slate-400 uppercase tracking-wider">
+            <tr className="border-b border-[#1b323e] bg-[#0c151a] text-[11px] font-bold text-slate-400 uppercase tracking-wider">
               <th className="py-3.5 px-4 sm:px-6">Dial Setting (%)</th>
               <th className="py-3.5 px-4">Measured Output (%)</th>
               <th className="py-3.5 px-4 hidden md:table-cell">Allowable Range (ISO)</th>
@@ -369,7 +369,7 @@ export const FlowrateTestTable: React.FC<FlowrateTestTableProps> = ({
               <th className="py-3.5 px-2 text-right"></th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-slate-800/60 text-sm">
+          <tbody className="divide-y divide-[#1b323e]/60 text-sm">
             {runEvaluation.evaluations.map((evalPoint) => {
               const point = currentRun.dialPoints.find((p) => p.dialSetting === evalPoint.dialSetting)!;
               const hasVal = evalPoint.measured !== null;
@@ -383,21 +383,21 @@ export const FlowrateTestTable: React.FC<FlowrateTestTableProps> = ({
                     isFail 
                       ? 'bg-rose-950/20 hover:bg-rose-950/30' 
                       : isPass 
-                      ? 'hover:bg-slate-800/30' 
-                      : 'hover:bg-slate-800/20'
+                      ? 'hover:bg-[#14232b]/40' 
+                      : 'hover:bg-[#14232b]/20'
                   }`}
                 >
                   
                   {/* Dial Setting Column */}
                   <td className="py-3.5 px-4 sm:px-6">
                     <div className="flex items-center gap-2">
-                      <span className="inline-flex items-center justify-center w-12 py-1 rounded-lg bg-slate-800 border border-slate-700 text-sm font-bold text-cyan-400 font-mono">
+                      <span className="inline-flex items-center justify-center w-12 py-1 rounded-lg bg-[#14232b] border border-[#1e3542] text-sm font-bold text-[#09b0bb] font-mono">
                         {point.dialSetting.toFixed(point.dialSetting < 1 ? 1 : 1)}%
                       </span>
                       <button
                         type="button"
                         onClick={() => handleSetExact(point.id, point.dialSetting)}
-                        className="text-[11px] text-slate-500 hover:text-cyan-400 transition"
+                        className="text-[11px] text-slate-500 hover:text-[#09b0bb] transition cursor-pointer"
                         title={`Quick set measured = ${point.dialSetting}%`}
                       >
                         = dial
@@ -411,7 +411,7 @@ export const FlowrateTestTable: React.FC<FlowrateTestTableProps> = ({
                       <button
                         type="button"
                         onClick={() => handleStepValue(point.id, -0.1)}
-                        className="w-7 h-8 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 font-mono text-xs flex items-center justify-center border border-slate-700 transition"
+                        className="w-7 h-8 rounded bg-[#14232b] hover:bg-[#1b323e] text-slate-300 font-mono text-xs flex items-center justify-center border border-[#1e3542] transition cursor-pointer"
                         title="-0.1%"
                       >
                         -
@@ -428,14 +428,14 @@ export const FlowrateTestTable: React.FC<FlowrateTestTableProps> = ({
                           isFail
                             ? 'bg-rose-950/40 border-rose-500 text-rose-300 focus:ring-rose-500'
                             : isPass
-                            ? 'bg-slate-800 border-emerald-500/60 text-emerald-300 focus:ring-emerald-500'
-                            : 'bg-slate-800 border-slate-700 text-white focus:ring-cyan-500'
+                            ? 'bg-[#14232b] border-emerald-500/60 text-emerald-300 focus:ring-emerald-500'
+                            : 'bg-[#0a1114] border-[#1e3542] text-white focus:ring-[#09b0bb]'
                         }`}
                       />
                       <button
                         type="button"
                         onClick={() => handleStepValue(point.id, 0.1)}
-                        className="w-7 h-8 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 font-mono text-xs flex items-center justify-center border border-slate-700 transition"
+                        className="w-7 h-8 rounded bg-[#14232b] hover:bg-[#1b323e] text-slate-300 font-mono text-xs flex items-center justify-center border border-[#1e3542] transition cursor-pointer"
                         title="+0.1%"
                       >
                         +
@@ -495,7 +495,7 @@ export const FlowrateTestTable: React.FC<FlowrateTestTableProps> = ({
                       </div>
                     )}
                     {!hasVal && (
-                      <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-medium bg-slate-800 text-slate-500 border border-slate-700">
+                      <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-medium bg-[#14232b] text-slate-500 border border-[#1e3542]">
                         Pending
                       </span>
                     )}
@@ -507,7 +507,7 @@ export const FlowrateTestTable: React.FC<FlowrateTestTableProps> = ({
                       <button
                         type="button"
                         onClick={() => handleDeleteDialPoint(point.id)}
-                        className="p-1 text-slate-600 hover:text-rose-400 rounded transition"
+                        className="p-1 text-slate-600 hover:text-rose-400 rounded transition cursor-pointer"
                         title="Remove custom dial point"
                       >
                         <Trash2 className="w-3.5 h-3.5" />
@@ -523,7 +523,7 @@ export const FlowrateTestTable: React.FC<FlowrateTestTableProps> = ({
       </div>
 
       {/* Add Custom Dial Setting Footer */}
-      <div className="p-4 bg-slate-900/60 border-t border-slate-800 flex flex-wrap items-center justify-between gap-3 text-xs">
+      <div className="p-4 bg-[#0a1114]/60 border-t border-[#1b323e] flex flex-wrap items-center justify-between gap-3 text-xs">
         <form onSubmit={handleAddCustomDial} className="flex items-center gap-2">
           <span className="text-slate-400">Add Extra Dial Setting:</span>
           <input
@@ -534,11 +534,11 @@ export const FlowrateTestTable: React.FC<FlowrateTestTableProps> = ({
             placeholder="e.g. 6.0"
             value={customDialInput}
             onChange={(e) => setCustomDialInput(e.target.value)}
-            className="w-20 px-2 py-1 bg-slate-800 border border-slate-700 rounded-lg text-xs text-white"
+            className="w-20 px-2 py-1 bg-[#0a1114] border border-[#1e3542] rounded-lg text-xs text-white focus:outline-none focus:ring-1 focus:ring-[#09b0bb]"
           />
           <button
             type="submit"
-            className="px-3 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-cyan-400 border border-slate-700 font-medium transition cursor-pointer"
+            className="px-3 py-1 rounded-lg bg-[#14232b] hover:bg-[#1b323e] text-[#09b0bb] border border-[#1e3542] font-medium transition cursor-pointer"
           >
             + Add %
           </button>

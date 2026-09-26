@@ -51,10 +51,10 @@ export const ResultsSummaryCard: React.FC<ResultsSummaryCardProps> = ({
   }, [evaluation.runs]);
 
   return (
-    <div className="bg-slate-900 border border-slate-800 rounded-2xl p-5 sm:p-6 shadow-xl space-y-6">
+    <div className="bg-[#0f1a20] border border-[#1b323e] rounded-2xl p-5 sm:p-6 shadow-xl space-y-6">
       
-      <div className="flex items-center gap-2.5 pb-4 border-b border-slate-800">
-        <div className="p-2 rounded-xl bg-cyan-500/10 text-cyan-400 border border-cyan-500/20">
+      <div className="flex items-center gap-2.5 pb-4 border-b border-[#1b323e]">
+        <div className="p-2 rounded-xl bg-[#09b0bb]/10 text-[#09b0bb] border border-[#09b0bb]/25">
           <ClipboardCheck className="w-5 h-5" />
         </div>
         <div>
@@ -70,7 +70,7 @@ export const ResultsSummaryCard: React.FC<ResultsSummaryCardProps> = ({
       {/* Primary Status Card */}
       <div className={`p-5 rounded-xl border flex flex-col sm:flex-row sm:items-center justify-between gap-4 ${
         !evaluation.hasMeasurements
-          ? 'bg-slate-800/40 border-slate-700 text-slate-300'
+          ? 'bg-[#14232b]/40 border-[#1e3542] text-slate-300'
           : evaluation.isPassed
           ? 'bg-emerald-950/20 border-emerald-500/40 text-emerald-300'
           : 'bg-rose-950/30 border-rose-500/50 text-rose-300'
@@ -78,7 +78,7 @@ export const ResultsSummaryCard: React.FC<ResultsSummaryCardProps> = ({
         <div className="flex items-center gap-3.5">
           <div className={`p-3 rounded-2xl ${
             !evaluation.hasMeasurements
-              ? 'bg-slate-800 text-slate-400'
+              ? 'bg-[#14232b] text-slate-400'
               : evaluation.isPassed
               ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/40'
               : 'bg-rose-500/20 text-rose-400 border border-rose-500/40'
@@ -109,7 +109,7 @@ export const ResultsSummaryCard: React.FC<ResultsSummaryCardProps> = ({
         </div>
 
         {/* Quick Stats Grid */}
-        <div className="flex items-center gap-3 sm:border-l sm:border-slate-800 sm:pl-6">
+        <div className="flex items-center gap-3 sm:border-l sm:border-[#1b323e] sm:pl-6">
           <div className="text-center">
             <div className="text-xs text-slate-400">Passed</div>
             <div className="text-lg font-bold text-emerald-400 font-mono">
@@ -134,9 +134,9 @@ export const ResultsSummaryCard: React.FC<ResultsSummaryCardProps> = ({
       {/* Max Deviation & Standard Details */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         
-        <div className="p-4 rounded-xl bg-slate-800/40 border border-slate-800 space-y-1">
+        <div className="p-4 rounded-xl bg-[#14232b]/50 border border-[#1b323e] space-y-1">
           <div className="text-xs text-slate-400 flex items-center gap-1.5 font-medium">
-            <Percent className="w-3.5 h-3.5 text-cyan-400" />
+            <Percent className="w-3.5 h-3.5 text-[#09b0bb]" />
             Maximum Recorded Deviation
           </div>
           <div className="text-lg font-bold text-white font-mono">
@@ -156,9 +156,9 @@ export const ResultsSummaryCard: React.FC<ResultsSummaryCardProps> = ({
           </div>
         </div>
 
-        <div className="p-4 rounded-xl bg-slate-800/40 border border-slate-800 space-y-1">
+        <div className="p-4 rounded-xl bg-[#14232b]/50 border border-[#1b323e] space-y-1">
           <div className="text-xs text-slate-400 flex items-center gap-1.5 font-medium">
-            <AlertCircle className="w-3.5 h-3.5 text-cyan-400" />
+            <AlertCircle className="w-3.5 h-3.5 text-[#09b0bb]" />
             Standard Compliance
           </div>
           <div className="text-sm font-semibold text-slate-200">
@@ -174,7 +174,7 @@ export const ResultsSummaryCard: React.FC<ResultsSummaryCardProps> = ({
       {/* Technician Notes & Recommendations */}
       <div>
         <label className="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-2 flex items-center gap-1.5">
-          <FileText className="w-4 h-4 text-cyan-400" />
+          <FileText className="w-4 h-4 text-[#09b0bb]" />
           Technician Inspection Remarks & Recommendations
         </label>
         <textarea
@@ -182,7 +182,7 @@ export const ResultsSummaryCard: React.FC<ResultsSummaryCardProps> = ({
           value={notes}
           onChange={(e) => onChangeNotes(e.target.value)}
           placeholder="Enter notes on vaporiser leak check, interlock mechanism, wick/sight glass condition, zero-lock engage, or recommendations..."
-          className="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-lg text-sm text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-cyan-500"
+          className="w-full px-3 py-2 bg-[#0a1114] border border-[#1e3542] rounded-lg text-sm text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-[#09b0bb]"
         />
         <div className="flex flex-wrap gap-2 mt-2">
           {[
@@ -199,7 +199,7 @@ export const ResultsSummaryCard: React.FC<ResultsSummaryCardProps> = ({
                 const updated = notes ? `${notes} ${preset}` : preset;
                 onChangeNotes(updated);
               }}
-              className="text-[11px] px-2 py-0.5 rounded bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-slate-200 border border-slate-700 transition cursor-pointer"
+              className="text-[11px] px-2 py-0.5 rounded bg-[#14232b] hover:bg-[#1b323e] text-slate-400 hover:text-slate-200 border border-[#1e3542] transition cursor-pointer"
             >
               + {preset}
             </button>

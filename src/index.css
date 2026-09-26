@@ -1,31 +1,47 @@
 @import "tailwindcss";
 
+:root {
+  --vet1-primary: #09b0bb;
+  --vet1-hover: #038c97;
+  --vet1-light: #8dd4d9;
+  --vet1-dark: #074d53;
+  --vet1-bg: #0a1114;
+  --vet1-card: #0f1a20;
+  --vet1-border: #1b323e;
+}
+
 @layer base {
   body {
-    background-color: #0b1120;
+    background-color: #0a1114;
     color: #f1f5f9;
     min-height: 100vh;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   }
 }
 
-/* Custom subtle scrollbar */
+/* Custom subtle scrollbar in Vet1 palette */
 ::-webkit-scrollbar {
   width: 8px;
   height: 8px;
 }
 ::-webkit-scrollbar-track {
-  background: #0f172a;
+  background: #0a1114;
 }
 ::-webkit-scrollbar-thumb {
-  background: #334155;
+  background: #1b323e;
   border-radius: 4px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #475569;
+  background: #09b0bb;
 }
 
-/* Failed diagonal watermark animation / styling */
+/* Selection */
+::selection {
+  background-color: #09b0bb;
+  color: #ffffff;
+}
+
+/* Failed diagonal watermark overlay */
 .failed-watermark-overlay {
   pointer-events: none;
   background-image: repeating-linear-gradient(

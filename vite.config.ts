@@ -13,11 +13,11 @@ export default defineConfig({
       registerType: 'autoUpdate',
       includeAssets: ['favicon.ico', 'apple-touch-icon.png', 'icons/*.png'],
       manifest: {
-        name: 'VetVap Test - Anaesthesia Machine Vaporiser Tester',
-        short_name: 'VetVap',
+        name: 'Vet1 - Anaesthesia Machine & Vaporiser Calibration Tester',
+        short_name: 'Vet1 Cal',
         description: 'Test, calibrate, and output reports for veterinary anaesthesia machines and vaporisers.',
-        theme_color: '#0f172a',
-        background_color: '#0f172a',
+        theme_color: '#09b0bb',
+        background_color: '#0a1114',
         display: 'standalone',
         orientation: 'any',
         icons: [

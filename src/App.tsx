@@ -328,7 +328,7 @@ export const App: React.FC = () => {
   const isFailed = evaluation.hasMeasurements && !evaluation.isPassed;
 
   return (
-    <div className={`min-h-screen flex flex-col bg-slate-950 text-slate-100 ${isFailed ? 'failed-watermark-overlay' : ''}`}>
+    <div className={`min-h-screen flex flex-col bg-[#0a1114] text-slate-100 ${isFailed ? 'failed-watermark-overlay' : ''}`}>
       
       {/* Top Header */}
       <Header
@@ -419,8 +419,8 @@ export const App: React.FC = () => {
 
       {/* Floating Toast Notification */}
       {toastMessage && (
-        <div className="fixed top-20 right-4 z-50 bg-slate-900 border border-cyan-500/50 text-white px-4 py-3 rounded-xl shadow-2xl flex items-center gap-3 animate-in fade-in slide-in-from-top-4 duration-200 text-xs sm:text-sm font-medium">
-          <div className="w-2 h-2 rounded-full bg-cyan-400 animate-ping" />
+        <div className="fixed top-20 right-4 z-50 bg-[#0f1a20] border border-[#09b0bb]/60 text-white px-4 py-3 rounded-xl shadow-2xl flex items-center gap-3 animate-in fade-in slide-in-from-top-4 duration-200 text-xs sm:text-sm font-medium">
+          <div className="w-2 h-2 rounded-full bg-[#09b0bb] animate-ping" />
           <span>{toastMessage}</span>
         </div>
       )}

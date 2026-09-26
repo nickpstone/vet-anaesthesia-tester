@@ -15,14 +15,16 @@ const KEYS = {
   VAPORISER_MODELS: 'vetvap_vaporiser_models'
 };
 
+import { VET1_DEFAULT_LOGO } from './defaultLogo';
+
 export const defaultCompanyProfile: CompanyProfile = {
-  companyName: 'Veterinary Equipment & Gas Calibration Services',
-  address: '123 Medical Parkway, Suite 400',
-  phone: '+61 400 000 000',
-  email: 'service@vetequipment.com',
-  website: 'www.vetequipment.com',
-  accreditationNumber: 'ISO/IEC 17025 Certified Tech #4928',
-  logoDataUrl: ''
+  companyName: 'Vet1 Pty Ltd',
+  address: 'National Technical Service Centre, 6 Louis Court, Coomera QLD 4209',
+  phone: '1300 378 713',
+  email: 'service@vet1.com.au',
+  website: 'www.vet1.com.au',
+  accreditationNumber: 'Vet1 Biomedical Service & Calibration Division',
+  logoDataUrl: VET1_DEFAULT_LOGO
 };
 
 export const createInitialRuns = (): TestRun[] => {

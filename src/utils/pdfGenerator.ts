@@ -138,9 +138,9 @@ export async function generateVaporiserPdf({
 
   currentY = logoRendered ? currentY + 32 : currentY + 22;
 
-  // Divider line
-  doc.setDrawColor(226, 232, 240);
-  doc.setLineWidth(0.5);
+  // Top brand divider line (Vet1 Teal)
+  doc.setDrawColor(9, 176, 187);
+  doc.setLineWidth(0.8);
   doc.line(leftMargin, currentY, pageWidth - rightMargin, currentY);
   currentY += 4;
 
@@ -268,7 +268,7 @@ export async function generateVaporiserPdf({
   // 5. Test Results Table
   doc.setFont('helvetica', 'bold');
   doc.setFontSize(10);
-  doc.setTextColor(15, 23, 42);
+  doc.setTextColor(7, 115, 122); // Vet1 Teal
   doc.text('CONCENTRATION OUTPUT MEASUREMENTS', leftMargin, currentY);
 
   doc.setFont('helvetica', 'normal');
@@ -318,7 +318,7 @@ export async function generateVaporiserPdf({
     body: tableRows,
     theme: 'grid',
     headStyles: {
-      fillColor: [30, 41, 59],
+      fillColor: [7, 115, 122], // Vet1 Medical Teal
       textColor: [255, 255, 255],
       fontStyle: 'bold',
       fontSize: 8,
@@ -360,7 +360,7 @@ export async function generateVaporiserPdf({
   // 6. Notes & Comments Box
   doc.setFont('helvetica', 'bold');
   doc.setFontSize(8.5);
-  doc.setTextColor(30, 41, 59);
+  doc.setTextColor(7, 115, 122); // Vet1 Teal
   doc.text('TECHNICIAN INSPECTION REMARKS & OBSERVATIONS', leftMargin, currentY);
   currentY += 3;
 

@@ -65,13 +65,13 @@ export const ManageVaporiserModelsModal: React.FC<ManageVaporiserModelsModalProp
   };
 
   return (
-    <div className="fixed inset-0 z-50 overflow-y-auto bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-4">
-      <div className="relative bg-slate-900 border border-slate-800 rounded-2xl w-full max-w-lg shadow-2xl overflow-hidden animate-in fade-in zoom-in-95 duration-200">
+    <div className="fixed inset-0 z-50 overflow-y-auto bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
+      <div className="relative bg-[#0f1a20] border border-[#1b323e] rounded-2xl w-full max-w-lg shadow-2xl overflow-hidden animate-in fade-in zoom-in-95 duration-200">
         
         {/* Modal Header */}
-        <div className="flex items-center justify-between px-6 py-4 border-b border-slate-800 bg-slate-900/80">
+        <div className="flex items-center justify-between px-6 py-4 border-b border-[#1b323e] bg-[#0c151a]">
           <div className="flex items-center gap-2.5">
-            <div className="p-2 rounded-xl bg-cyan-500/10 text-cyan-400 border border-cyan-500/20">
+            <div className="p-2 rounded-xl bg-[#09b0bb]/10 text-[#09b0bb] border border-[#09b0bb]/25">
               <Gauge className="w-5 h-5" />
             </div>
             <div>
@@ -85,7 +85,7 @@ export const ManageVaporiserModelsModal: React.FC<ManageVaporiserModelsModalProp
           </div>
           <button
             onClick={onClose}
-            className="text-slate-400 hover:text-white p-1 rounded-lg hover:bg-slate-800 transition cursor-pointer"
+            className="text-slate-400 hover:text-white p-1 rounded-lg hover:bg-[#14232b] transition cursor-pointer"
           >
             <X className="w-5 h-5" />
           </button>
@@ -107,11 +107,11 @@ export const ManageVaporiserModelsModal: React.FC<ManageVaporiserModelsModalProp
                   setErrorMsg(null);
                 }}
                 placeholder="e.g. Dräger Vapor 3000, Penlon Sigma Plus..."
-                className="flex-1 px-3 py-2 bg-slate-800 border border-slate-700 rounded-lg text-sm text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-cyan-500"
+                className="flex-1 px-3 py-2 bg-[#0a1114] border border-[#1e3542] rounded-lg text-sm text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-[#09b0bb]"
               />
               <button
                 type="submit"
-                className="flex items-center gap-1.5 px-4 py-2 bg-cyan-600 hover:bg-cyan-500 text-white rounded-lg text-sm font-semibold shadow-md transition cursor-pointer flex-shrink-0"
+                className="flex items-center gap-1.5 px-4 py-2 bg-[#09b0bb] hover:bg-[#038c97] text-white rounded-lg text-sm font-semibold shadow-md transition cursor-pointer flex-shrink-0"
               >
                 <Plus className="w-4 h-4" />
                 <span>Add</span>
@@ -140,7 +140,7 @@ export const ManageVaporiserModelsModal: React.FC<ManageVaporiserModelsModalProp
               <button
                 type="button"
                 onClick={handleReset}
-                className="text-xs text-slate-400 hover:text-cyan-400 flex items-center gap-1 transition cursor-pointer"
+                className="text-xs text-slate-400 hover:text-[#09b0bb] flex items-center gap-1 transition cursor-pointer"
                 title="Restore default manufacturer models"
               >
                 <RotateCcw className="w-3 h-3" />
@@ -148,20 +148,20 @@ export const ManageVaporiserModelsModal: React.FC<ManageVaporiserModelsModalProp
               </button>
             </div>
 
-            <div className="max-h-60 overflow-y-auto rounded-xl border border-slate-800 bg-slate-950/60 divide-y divide-slate-800/80">
+            <div className="max-h-60 overflow-y-auto rounded-xl border border-[#1e3542] bg-[#0a1114]/80 divide-y divide-[#1e3542]">
               {models.map((model) => {
                 const isDefault = COMMON_VAPORISER_MODELS.includes(model);
                 return (
                   <div
                     key={model}
-                    className="flex items-center justify-between px-3.5 py-2.5 hover:bg-slate-800/40 transition group"
+                    className="flex items-center justify-between px-3.5 py-2.5 hover:bg-[#14232b]/40 transition group"
                   >
                     <div className="flex items-center gap-2 min-w-0">
                       <span className="text-sm font-medium text-slate-200 truncate">
                         {model}
                       </span>
                       {isDefault && (
-                        <span className="text-[10px] px-1.5 py-0.5 rounded bg-slate-800 text-slate-400 border border-slate-700">
+                        <span className="text-[10px] px-1.5 py-0.5 rounded bg-[#14232b] text-slate-400 border border-[#1e3542]">
                           Standard
                         </span>
                       )}
@@ -183,12 +183,12 @@ export const ManageVaporiserModelsModal: React.FC<ManageVaporiserModelsModalProp
         </div>
 
         {/* Modal Footer */}
-        <div className="px-6 py-3.5 border-t border-slate-800 bg-slate-900/60 flex items-center justify-between text-xs text-slate-400">
+        <div className="px-6 py-3.5 border-t border-[#1b323e] bg-[#0c151a] flex items-center justify-between text-xs text-slate-400">
           <span>Changes are saved automatically to device storage.</span>
           <button
             type="button"
             onClick={onClose}
-            className="px-4 py-1.5 bg-slate-800 hover:bg-slate-700 text-white rounded-lg font-medium transition cursor-pointer"
+            className="px-4 py-1.5 bg-[#14232b] hover:bg-[#1b323e] text-white rounded-lg font-medium border border-[#1e3542] transition cursor-pointer"
           >
             Done
           </button>

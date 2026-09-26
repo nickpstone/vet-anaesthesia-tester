@@ -79,20 +79,20 @@ export const CompanyModal: React.FC<CompanyModalProps> = ({
   };
 
   return (
-    <div className="fixed inset-0 z-50 overflow-y-auto bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-4">
-      <div className="relative bg-slate-900 border border-slate-800 rounded-2xl w-full max-w-xl shadow-2xl overflow-hidden animate-in fade-in zoom-in-95 duration-200">
+    <div className="fixed inset-0 z-50 overflow-y-auto bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
+      <div className="relative bg-[#0f1a20] border border-[#1b323e] rounded-2xl w-full max-w-xl shadow-2xl overflow-hidden animate-in fade-in zoom-in-95 duration-200">
         
         {/* Modal Header */}
-        <div className="flex items-center justify-between px-6 py-4 border-b border-slate-800 bg-slate-900/60">
+        <div className="flex items-center justify-between px-6 py-4 border-b border-[#1b323e] bg-[#0c151a]">
           <div className="flex items-center gap-2">
-            <Building className="w-5 h-5 text-cyan-400" />
+            <Building className="w-5 h-5 text-[#09b0bb]" />
             <h2 className="text-lg font-semibold text-white m-0">
               Testing Company & Logo Setup
             </h2>
           </div>
           <button
             onClick={onClose}
-            className="text-slate-400 hover:text-white p-1 rounded-lg hover:bg-slate-800 transition"
+            className="text-slate-400 hover:text-white p-1 rounded-lg hover:bg-[#14232b] transition cursor-pointer"
           >
             <X className="w-5 h-5" />
           </button>
@@ -111,7 +111,7 @@ export const CompanyModal: React.FC<CompanyModalProps> = ({
             </label>
             
             {formData.logoDataUrl ? (
-              <div className="flex items-center gap-4 p-4 rounded-xl bg-slate-800/60 border border-slate-700">
+              <div className="flex items-center gap-4 p-4 rounded-xl bg-[#14232b]/60 border border-[#1e3542]">
                 <div className="w-28 h-16 bg-white rounded-lg p-2 flex items-center justify-center shadow-inner overflow-hidden flex-shrink-0">
                   <img
                     src={formData.logoDataUrl}
@@ -130,7 +130,7 @@ export const CompanyModal: React.FC<CompanyModalProps> = ({
                 <button
                   type="button"
                   onClick={handleRemoveLogo}
-                  className="p-2 text-rose-400 hover:bg-rose-500/10 rounded-lg transition"
+                  className="p-2 text-rose-400 hover:bg-rose-500/10 rounded-lg transition cursor-pointer"
                   title="Remove logo"
                 >
                   <Trash2 className="w-4 h-4" />
@@ -145,11 +145,11 @@ export const CompanyModal: React.FC<CompanyModalProps> = ({
                 onClick={() => fileInputRef.current?.click()}
                 className={`border-2 border-dashed rounded-xl p-6 text-center cursor-pointer transition ${
                   dragActive 
-                    ? 'border-cyan-400 bg-cyan-950/20' 
-                    : 'border-slate-700 hover:border-slate-600 bg-slate-800/40 hover:bg-slate-800/70'
+                    ? 'border-[#09b0bb] bg-[#09b0bb]/10' 
+                    : 'border-[#1e3542] hover:border-[#09b0bb] bg-[#14232b]/40 hover:bg-[#14232b]'
                 }`}
               >
-                <Upload className="w-8 h-8 text-cyan-400 mx-auto mb-2" />
+                <Upload className="w-8 h-8 text-[#09b0bb] mx-auto mb-2" />
                 <p className="text-sm font-medium text-slate-200 m-0">
                   Click or drag and drop your company logo here
                 </p>
@@ -181,7 +181,7 @@ export const CompanyModal: React.FC<CompanyModalProps> = ({
                   value={formData.companyName}
                   onChange={(e) => setFormData({ ...formData, companyName: e.target.value })}
                   placeholder="e.g. BioMed Veterinary Calibration Services"
-                  className="w-full pl-9 pr-3 py-2 bg-slate-800 border border-slate-700 rounded-lg text-sm text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-cyan-500"
+                  className="w-full pl-9 pr-3 py-2 bg-[#0a1114] border border-[#1e3542] rounded-lg text-sm text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-[#09b0bb]"
                 />
               </div>
             </div>
@@ -198,7 +198,7 @@ export const CompanyModal: React.FC<CompanyModalProps> = ({
                     value={formData.phone}
                     onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                     placeholder="+61 400 000 000"
-                    className="w-full pl-9 pr-3 py-2 bg-slate-800 border border-slate-700 rounded-lg text-sm text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-cyan-500"
+                    className="w-full pl-9 pr-3 py-2 bg-[#0a1114] border border-[#1e3542] rounded-lg text-sm text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-[#09b0bb]"
                   />
                 </div>
               </div>
@@ -214,7 +214,7 @@ export const CompanyModal: React.FC<CompanyModalProps> = ({
                     value={formData.email}
                     onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                     placeholder="service@biomedvet.com"
-                    className="w-full pl-9 pr-3 py-2 bg-slate-800 border border-slate-700 rounded-lg text-sm text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-cyan-500"
+                    className="w-full pl-9 pr-3 py-2 bg-[#0a1114] border border-[#1e3542] rounded-lg text-sm text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-[#09b0bb]"
                   />
                 </div>
               </div>
@@ -229,7 +229,7 @@ export const CompanyModal: React.FC<CompanyModalProps> = ({
                 value={formData.address}
                 onChange={(e) => setFormData({ ...formData, address: e.target.value })}
                 placeholder="123 Biomedical Way, Sydney NSW 2000"
-                className="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-lg text-sm text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-cyan-500"
+                className="w-full px-3 py-2 bg-[#0a1114] border border-[#1e3542] rounded-lg text-sm text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-[#09b0bb]"
               />
             </div>
 
@@ -244,24 +244,24 @@ export const CompanyModal: React.FC<CompanyModalProps> = ({
                   value={formData.accreditationNumber}
                   onChange={(e) => setFormData({ ...formData, accreditationNumber: e.target.value })}
                   placeholder="e.g. ISO/IEC 17025 Certified Tech #4928"
-                  className="w-full pl-9 pr-3 py-2 bg-slate-800 border border-slate-700 rounded-lg text-sm text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-cyan-500"
+                  className="w-full pl-9 pr-3 py-2 bg-[#0a1114] border border-[#1e3542] rounded-lg text-sm text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-[#09b0bb]"
                 />
               </div>
             </div>
           </div>
 
           {/* Modal Footer */}
-          <div className="flex items-center justify-end gap-3 pt-4 border-t border-slate-800">
+          <div className="flex items-center justify-end gap-3 pt-4 border-t border-[#1b323e]">
             <button
               type="button"
               onClick={onClose}
-              className="px-4 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 text-sm font-medium transition"
+              className="px-4 py-2 rounded-lg bg-[#14232b] hover:bg-[#1b323e] text-slate-300 text-sm font-medium border border-[#1e3542] transition cursor-pointer"
             >
               Cancel
             </button>
             <button
               type="submit"
-              className="flex items-center gap-2 px-5 py-2 rounded-lg bg-cyan-600 hover:bg-cyan-500 text-white text-sm font-semibold shadow-lg shadow-cyan-600/20 transition"
+              className="flex items-center gap-2 px-5 py-2 rounded-lg bg-[#09b0bb] hover:bg-[#038c97] text-white text-sm font-semibold shadow-lg shadow-[#09b0bb]/20 transition cursor-pointer"
             >
               {savedSuccess ? (
                 <>
