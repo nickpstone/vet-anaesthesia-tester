@@ -151,11 +151,16 @@ export const getNextYearDateString = (fromDateStr: string): string => {
 export const createInitialMachineInfo = (): MachineInfo => {
   const today = getTodayDateString();
   return {
-    clinicName: '',
-    clinicAddress: '',
-    clinicContact: '',
+    ownerCompanyName: '',
+    ownerDepartment: 'Operating Theatre 1',
+    ownerAddress: '',
+    ownerContactPerson: '',
+    ownerContactEmail: '',
+    ownerContactPhone: '',
+    machineManufacturer: 'Vetland Medical',
     machineModel: 'Vetland Landmark V-1000',
     machineSerial: '',
+    machineAssetTag: '',
     vaporiserModel: 'Datex-Ohmeda Tec 4',
     vaporiserSerial: '',
     mountType: 'Selectatec',
@@ -166,6 +171,9 @@ export const createInitialMachineInfo = (): MachineInfo => {
     gasAnalyserModel: 'Riken FI-8000 Gas Indicator',
     gasAnalyserSerial: '',
     gasAnalyserCalDate: today,
-    notes: 'Vaporiser inspected and calibrated using calibrated optical refractometer/gas analyser.'
+    notes: 'Vaporiser inspected and calibrated using calibrated optical refractometer/gas analyser.',
+    clinicName: '',
+    clinicAddress: '',
+    clinicContact: ''
   };
 };

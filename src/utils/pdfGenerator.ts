@@ -195,57 +195,73 @@ export async function generateVaporiserPdf({
   doc.setFillColor(248, 250, 252); // Slate 50
   doc.setDrawColor(203, 213, 225);
   doc.setLineWidth(0.4);
-  const infoBoxHeight = 36;
+  const infoBoxHeight = 42;
   doc.roundedRect(leftMargin, currentY, contentWidth, infoBoxHeight, 1.5, 1.5, 'FD');
 
   const col1X = leftMargin + 4;
   const col2X = leftMargin + (contentWidth / 2) + 4;
   let infoY = currentY + 5;
 
-  // Column 1: Client & Anaesthesia Machine
+  // Column 1: Client & Facility Details
   doc.setFont('helvetica', 'bold');
   doc.setFontSize(8.5);
   doc.setTextColor(30, 41, 59);
-  doc.text('VETERINARY CLINIC / CLIENT', col1X, infoY);
-  infoY += 4;
+  doc.text('CLIENT / MACHINE OWNER COMPANY', col1X, infoY);
+  infoY += 4.5;
 
   doc.setFont('helvetica', 'normal');
-  doc.setFontSize(8);
+  doc.setFontSize(7.5);
   doc.setTextColor(71, 85, 105);
-  doc.text(`Clinic: ${machine.clinicName || 'Not specified'}`, col1X, infoY);
-  infoY += 4;
-  doc.text(`Address: ${machine.clinicAddress || 'Not specified'}`, col1X, infoY);
-  infoY += 4;
-  doc.text(`Machine Model: ${machine.machineModel || 'N/A'}`, col1X, infoY);
-  infoY += 4;
-  doc.text(`Machine Serial: ${machine.machineSerial || 'N/A'}`, col1X, infoY);
-  infoY += 4;
-  doc.text(`Technician: ${machine.technicianName || 'N/A'}`, col1X, infoY);
+  const clientCompany = machine.ownerCompanyName || machine.clinicName || 'Not specified';
+  doc.text(`Company/Clinic: ${clientCompany}`, col1X, infoY);
+  infoY += 3.8;
+  if (machine.ownerDepartment) {
+    doc.text(`Department/Room: ${machine.ownerDepartment}`, col1X, infoY);
+    infoY += 3.8;
+  }
+  const clientAddr = machine.ownerAddress || machine.clinicAddress || 'Not specified';
+  doc.text(`Facility Address: ${clientAddr}`, col1X, infoY);
+  infoY += 3.8;
+  if (machine.ownerContactPerson) {
+    doc.text(`Contact: ${machine.ownerContactPerson}`, col1X, infoY);
+    infoY += 3.8;
+  }
+  const clientEmail = machine.ownerContactEmail || machine.clinicContact || '';
+  if (clientEmail) {
+    doc.text(`Email: ${clientEmail}`, col1X, infoY);
+    infoY += 3.8;
+  }
+  doc.text(`Tested By Tech: ${machine.technicianName || 'Certified Technician'}`, col1X, infoY);
 
-  // Column 2: Vaporiser & Calibration Hardware
+  // Column 2: Equipment & Vaporiser Under Test
   infoY = currentY + 5;
   doc.setFont('helvetica', 'bold');
   doc.setFontSize(8.5);
   doc.setTextColor(30, 41, 59);
-  doc.text('VAPORISER UNDER TEST', col2X, infoY);
-  infoY += 4;
+  doc.text('EQUIPMENT & VAPORISER DETAILS', col2X, infoY);
+  infoY += 4.5;
 
   doc.setFont('helvetica', 'normal');
-  doc.setFontSize(8);
+  doc.setFontSize(7.5);
   doc.setTextColor(71, 85, 105);
+  const machName = `${machine.machineManufacturer ? machine.machineManufacturer + ' ' : ''}${machine.machineModel || 'N/A'}`;
+  doc.text(`Machine: ${machName} (S/N: ${machine.machineSerial || 'N/A'})`, col2X, infoY);
+  infoY += 3.8;
+  if (machine.machineAssetTag) {
+    doc.text(`Asset Tag #: ${machine.machineAssetTag}`, col2X, infoY);
+    infoY += 3.8;
+  }
   doc.text(`Vaporiser Model: ${machine.vaporiserModel || 'N/A'}`, col2X, infoY);
-  infoY += 4;
-  doc.text(`Vaporiser Serial: ${machine.vaporiserSerial || 'N/A'}`, col2X, infoY);
-  infoY += 4;
+  infoY += 3.8;
+  doc.text(`Vaporiser S/N: ${machine.vaporiserSerial || 'N/A'}`, col2X, infoY);
+  infoY += 3.8;
   
   // Highlight Mount Type & Agent
   doc.setFont('helvetica', 'bold');
-  doc.text(`Mount System: ${machine.mountType}`, col2X, infoY);
-  infoY += 4;
-  doc.text(`Agent: ${machine.agent}`, col2X, infoY);
-  infoY += 4;
+  doc.text(`Mount System: ${machine.mountType} | Agent: ${machine.agent}`, col2X, infoY);
+  infoY += 3.8;
   doc.setFont('helvetica', 'normal');
-  doc.text(`Test Gas Analyser: ${machine.gasAnalyserModel} (S/N: ${machine.gasAnalyserSerial || 'N/A'})`, col2X, infoY);
+  doc.text(`Gas Analyser: ${machine.gasAnalyserModel} (S/N: ${machine.gasAnalyserSerial || 'N/A'})`, col2X, infoY);
 
   currentY += infoBoxHeight + 6;
 

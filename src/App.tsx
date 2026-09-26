@@ -98,22 +98,30 @@ export const App: React.FC = () => {
     const today = getTodayDateString();
     if (type === 'pass') {
       setMachine({
-        clinicName: 'All Creatures Veterinary Hospital',
-        clinicAddress: '450 Parkland Rd, Brisbane QLD 4000',
-        clinicContact: 'dr.smith@allcreaturesvet.com.au',
+        ownerCompanyName: 'All Creatures Veterinary Specialty Hospital',
+        ownerDepartment: 'Operating Theatre 1 (Soft Tissue)',
+        ownerAddress: '450 Parkland Rd, Brisbane QLD 4000',
+        ownerContactPerson: 'Dr. Michael Smith BVSc (Head Surgeon)',
+        ownerContactEmail: 'dr.smith@allcreaturesvet.com.au',
+        ownerContactPhone: '+61 7 3840 1122',
+        machineManufacturer: 'Vetland Medical Systems',
         machineModel: 'Vetland Landmark V-1000',
         machineSerial: 'VLM-2041',
+        machineAssetTag: 'ASSET-BRIS-014',
         vaporiserModel: 'Datex-Ohmeda Tec 4',
         vaporiserSerial: 'VAP-8841-ISO',
         mountType: 'Selectatec',
         agent: 'Isoflurane',
         testDate: today,
         nextDueDate: '2027-09-26',
-        technicianName: 'Nick (Senior Biomedical Tech)',
+        technicianName: 'Nick (Senior Biomedical Engineer)',
         gasAnalyserModel: 'Riken FI-8000 Optical Analyser',
         gasAnalyserSerial: 'RK-99120',
         gasAnalyserCalDate: today,
-        notes: 'Annual routine compliance testing. Selectatec interlocks engage smoothly, zero-lock working normally, pressure tested to 30 cmH2O without decay.'
+        notes: 'Annual routine compliance testing. Selectatec interlocks engage smoothly, zero-lock working normally, pressure tested to 30 cmH2O without decay.',
+        clinicName: 'All Creatures Veterinary Specialty Hospital',
+        clinicAddress: '450 Parkland Rd, Brisbane QLD 4000',
+        clinicContact: 'dr.smith@allcreaturesvet.com.au'
       });
 
       // Pass values within +/- 4% to 8%
@@ -138,22 +146,30 @@ export const App: React.FC = () => {
       showToast('Loaded PASS demo data (all points within ISO ±15% tolerance).');
     } else {
       setMachine({
-        clinicName: 'Bayside Veterinary Specialty Clinic',
-        clinicAddress: '12 Marine Parade, Melbourne VIC 3000',
-        clinicContact: 'theatre@baysidevet.com.au',
+        ownerCompanyName: 'Bayside Veterinary Emergency Centre',
+        ownerDepartment: 'Emergency Theatre 2',
+        ownerAddress: '12 Marine Parade, Melbourne VIC 3000',
+        ownerContactPerson: 'Dr. Emily Watson (Clinical Director)',
+        ownerContactEmail: 'theatre@baysidevet.com.au',
+        ownerContactPhone: '+61 3 9550 4400',
+        machineManufacturer: 'Burtons Medical UK',
         machineModel: 'Burtons Compact Anaesthesia Unit',
         machineSerial: 'BC-9941',
+        machineAssetTag: 'ASSET-MELB-089',
         vaporiserModel: 'Penlon Sigma Delta Sevo',
         vaporiserSerial: 'VAP-5520-SEV',
         mountType: 'Cagemount',
         agent: 'Sevoflurane',
         testDate: today,
         nextDueDate: '2027-09-26',
-        technicianName: 'Nick (Senior Biomedical Tech)',
+        technicianName: 'Nick (Senior Biomedical Engineer)',
         gasAnalyserModel: 'Datex-Ohmeda Capnomac Ultima',
         gasAnalyserSerial: 'DX-4410',
         gasAnalyserCalDate: today,
-        notes: 'Vaporiser delivering dangerously high output at 2.0% and 4.0% dial settings. Wick or temperature compensation bypass valve failed. REMOVED FROM THEATRE.'
+        notes: 'Vaporiser delivering dangerously high output at 2.0% and 4.0% dial settings. Wick or temperature compensation bypass valve failed. REMOVED FROM CLINICAL ROTATION.',
+        clinicName: 'Bayside Veterinary Emergency Centre',
+        clinicAddress: '12 Marine Parade, Melbourne VIC 3000',
+        clinicContact: 'theatre@baysidevet.com.au'
       });
 
       // Fail values exceeding tolerance

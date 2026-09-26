@@ -8,7 +8,11 @@ import {
   Gauge, 
   Activity,
   CheckCircle,
-  HelpCircle
+  MapPin,
+  Phone,
+  Mail,
+  User,
+  Tag
 } from 'lucide-react';
 import { AnaestheticAgent, MachineInfo, MountType } from '../types';
 import { 
@@ -29,6 +33,14 @@ export const MachineDetailsCard: React.FC<MachineDetailsCardProps> = ({
 }) => {
   const handleFieldChange = (field: keyof MachineInfo, value: any) => {
     const updated = { ...machine, [field]: value };
+    // Synchronize legacy and new fields
+    if (field === 'ownerCompanyName') updated.clinicName = value;
+    if (field === 'clinicName') updated.ownerCompanyName = value;
+    if (field === 'ownerAddress') updated.clinicAddress = value;
+    if (field === 'clinicAddress') updated.ownerAddress = value;
+    if (field === 'ownerContactEmail') updated.clinicContact = value;
+    if (field === 'clinicContact') updated.ownerContactEmail = value;
+
     // If testDate changed, automatically suggest nextDueDate (+1 year)
     if (field === 'testDate') {
       updated.nextDueDate = getNextYearDateString(value);
@@ -38,7 +50,6 @@ export const MachineDetailsCard: React.FC<MachineDetailsCardProps> = ({
 
   const handleAgentChange = (newAgent: AnaestheticAgent) => {
     const updated = { ...machine, agent: newAgent };
-    // If vaporiserModel was blank or default, suggest matching model
     const agentConfig = AGENT_CONFIGS[newAgent];
     if (agentConfig && agentConfig.commonModels.length > 0) {
       if (!machine.vaporiserModel || COMMON_VAPORISER_MODELS.includes(machine.vaporiserModel)) {
@@ -80,10 +91,10 @@ export const MachineDetailsCard: React.FC<MachineDetailsCardProps> = ({
           </div>
           <div>
             <h2 className="text-base sm:text-lg font-bold text-white m-0">
-              Veterinary Equipment & Machine Profile
+              Machine Owner & Equipment Specifications
             </h2>
             <p className="text-xs text-slate-400 m-0">
-              Enter machine details, vaporiser mounting, agent, and inspection date
+              Enter the client company details of the machine being tested and equipment metadata
             </p>
           </div>
         </div>
@@ -101,7 +112,85 @@ export const MachineDetailsCard: React.FC<MachineDetailsCardProps> = ({
         </div>
       </div>
 
-      {/* 1. ANAESTHETIC AGENT SELECTOR */}
+      {/* 1. MACHINE OWNER / CLIENT COMPANY DETAILS */}
+      <div className="bg-slate-800/40 rounded-xl p-4 border border-slate-700/60 space-y-3">
+        <div className="flex items-center gap-2 text-cyan-400 font-bold text-xs uppercase tracking-wider">
+          <Building className="w-4 h-4" />
+          Client / Machine Owner Company Details (Whose machine is being tested)
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
+          <div className="sm:col-span-2">
+            <label className="block text-xs font-semibold text-slate-300 mb-1">
+              Company / Clinic / Practice Name <span className="text-rose-400">*</span>
+            </label>
+            <input
+              type="text"
+              required
+              value={machine.ownerCompanyName || machine.clinicName || ''}
+              onChange={(e) => handleFieldChange('ownerCompanyName', e.target.value)}
+              placeholder="e.g. Riverbend Animal Hospital & Specialty Surgery"
+              className="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-lg text-sm text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-cyan-500"
+            />
+          </div>
+
+          <div>
+            <label className="block text-xs font-semibold text-slate-300 mb-1">
+              Department / Surgery Location
+            </label>
+            <input
+              type="text"
+              value={machine.ownerDepartment || ''}
+              onChange={(e) => handleFieldChange('ownerDepartment', e.target.value)}
+              placeholder="e.g. Operating Theatre 2 / Dental Suite"
+              className="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-lg text-sm text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-cyan-500"
+            />
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+          <div className="sm:col-span-1">
+            <label className="block text-xs text-slate-300 mb-1 flex items-center gap-1">
+              <MapPin className="w-3.5 h-3.5 text-slate-400" /> Facility Street Address
+            </label>
+            <input
+              type="text"
+              value={machine.ownerAddress || machine.clinicAddress || ''}
+              onChange={(e) => handleFieldChange('ownerAddress', e.target.value)}
+              placeholder="e.g. 450 Parkland Rd, Brisbane QLD 4000"
+              className="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-lg text-sm text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-cyan-500"
+            />
+          </div>
+
+          <div>
+            <label className="block text-xs text-slate-300 mb-1 flex items-center gap-1">
+              <User className="w-3.5 h-3.5 text-slate-400" /> Client Contact Person
+            </label>
+            <input
+              type="text"
+              value={machine.ownerContactPerson || ''}
+              onChange={(e) => handleFieldChange('ownerContactPerson', e.target.value)}
+              placeholder="e.g. Dr. Sarah Jenkins (Head Vet)"
+              className="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-lg text-sm text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-cyan-500"
+            />
+          </div>
+
+          <div>
+            <label className="block text-xs text-slate-300 mb-1 flex items-center gap-1">
+              <Mail className="w-3.5 h-3.5 text-slate-400" /> Client Email (For PDF delivery)
+            </label>
+            <input
+              type="email"
+              value={machine.ownerContactEmail || machine.clinicContact || ''}
+              onChange={(e) => handleFieldChange('ownerContactEmail', e.target.value)}
+              placeholder="e.g. theatre@riverbendvet.com.au"
+              className="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-lg text-sm text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-cyan-500"
+            />
+          </div>
+        </div>
+      </div>
+
+      {/* 2. ANAESTHETIC AGENT SELECTOR */}
       <div>
         <label className="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-2 flex items-center gap-1.5">
           <Flame className="w-4 h-4 text-cyan-400" />
@@ -138,7 +227,7 @@ export const MachineDetailsCard: React.FC<MachineDetailsCardProps> = ({
         </div>
       </div>
 
-      {/* 2. MOUNT SYSTEM SELECTOR (Cagemount vs Selectatec) */}
+      {/* 3. MOUNT SYSTEM SELECTOR (Cagemount vs Selectatec) */}
       <div>
         <label className="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-2 flex items-center justify-between">
           <span className="flex items-center gap-1.5">
@@ -178,13 +267,13 @@ export const MachineDetailsCard: React.FC<MachineDetailsCardProps> = ({
         </div>
       </div>
 
-      {/* 3. VAPORISER & MACHINE SPECIFICS */}
+      {/* 4. HARDWARE SPECIFICS: MACHINE & VAPORISER */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2 border-t border-slate-800/60">
         
         {/* Left Column: Vaporiser Details */}
         <div className="space-y-3">
           <h3 className="text-xs font-bold text-cyan-400 uppercase tracking-wider flex items-center gap-1.5">
-            <Gauge className="w-3.5 h-3.5" /> Vaporiser Details
+            <Gauge className="w-3.5 h-3.5" /> Vaporiser Under Test
           </h3>
 
           <div>
@@ -227,27 +316,26 @@ export const MachineDetailsCard: React.FC<MachineDetailsCardProps> = ({
           </div>
         </div>
 
-        {/* Right Column: Anaesthesia Machine & Clinic */}
+        {/* Right Column: Anaesthesia Machine Hardware */}
         <div className="space-y-3">
           <h3 className="text-xs font-bold text-cyan-400 uppercase tracking-wider flex items-center gap-1.5">
-            <Building className="w-3.5 h-3.5" /> Anaesthesia Machine & Clinic
+            <Building className="w-3.5 h-3.5" /> Anaesthesia Machine Details
           </h3>
 
-          <div>
-            <label className="block text-xs text-slate-300 mb-1">
-              Veterinary Clinic Name <span className="text-rose-400">*</span>
-            </label>
-            <input
-              type="text"
-              required
-              value={machine.clinicName}
-              onChange={(e) => handleFieldChange('clinicName', e.target.value)}
-              placeholder="e.g. Riverbend Veterinary Hospital"
-              className="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-lg text-sm text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-cyan-500"
-            />
-          </div>
-
           <div className="grid grid-cols-2 gap-2">
+            <div>
+              <label className="block text-xs text-slate-300 mb-1">
+                Machine Make / Manufacturer
+              </label>
+              <input
+                type="text"
+                value={machine.machineManufacturer || ''}
+                onChange={(e) => handleFieldChange('machineManufacturer', e.target.value)}
+                placeholder="e.g. Vetland Medical"
+                className="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-lg text-sm text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-cyan-500"
+              />
+            </div>
+
             <div>
               <label className="block text-xs text-slate-300 mb-1">
                 Machine Model
@@ -257,7 +345,7 @@ export const MachineDetailsCard: React.FC<MachineDetailsCardProps> = ({
                 list="machine-models"
                 value={machine.machineModel}
                 onChange={(e) => handleFieldChange('machineModel', e.target.value)}
-                placeholder="e.g. Vetland Landmark"
+                placeholder="e.g. Landmark V-1000"
                 className="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-lg text-sm text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-cyan-500"
               />
               <datalist id="machine-models">
@@ -266,10 +354,12 @@ export const MachineDetailsCard: React.FC<MachineDetailsCardProps> = ({
                 ))}
               </datalist>
             </div>
+          </div>
 
+          <div className="grid grid-cols-2 gap-2">
             <div>
               <label className="block text-xs text-slate-300 mb-1">
-                Machine S/N
+                Machine Serial #
               </label>
               <input
                 type="text"
@@ -279,12 +369,25 @@ export const MachineDetailsCard: React.FC<MachineDetailsCardProps> = ({
                 className="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-lg text-sm text-white font-mono placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-cyan-500"
               />
             </div>
+
+            <div>
+              <label className="block text-xs text-slate-300 mb-1 flex items-center gap-1">
+                <Tag className="w-3 h-3 text-slate-400" /> Hospital Asset Tag #
+              </label>
+              <input
+                type="text"
+                value={machine.machineAssetTag || ''}
+                onChange={(e) => handleFieldChange('machineAssetTag', e.target.value)}
+                placeholder="e.g. ASSET-2024-08"
+                className="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-lg text-sm text-white font-mono placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-cyan-500"
+              />
+            </div>
           </div>
         </div>
 
       </div>
 
-      {/* 4. DATES & TECHNICIAN / ANALYSER INFO */}
+      {/* 5. DATES & TECHNICIAN / ANALYSER INFO */}
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3 pt-3 border-t border-slate-800/60">
         
         <div>
