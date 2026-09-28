@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
+import { Sparkles, RotateCcw } from 'lucide-react';
 import { Header } from './components/Header';
 import { MachineDetailsCard } from './components/MachineDetailsCard';
 import { FlowrateTestTable } from './components/FlowrateTestTable';
@@ -49,6 +50,7 @@ export const App: React.FC = () => {
   const [tolerance, setTolerance] = useState<ToleranceConfig>(initialDraft.tolerance);
   const [company, setCompany] = useState<CompanyProfile>(loadCompanyProfile);
   const [vaporiserModels, setVaporiserModels] = useState<string[]>(loadVaporiserModels);
+  const [activeSample, setActiveSample] = useState<'pass' | 'fail' | null>(null);
 
   // Modals
   const [isCompanyModalOpen, setIsCompanyModalOpen] = useState(false);
@@ -64,13 +66,14 @@ export const App: React.FC = () => {
   // Overall Evaluation
   const evaluation: OverallEvaluation = evaluateOverall(runs, tolerance);
 
-  // Autosave draft on changes
+  // Autosave draft on changes (never autosave demo sample data to localStorage)
   useEffect(() => {
+    if (activeSample) return;
     const timer = setTimeout(() => {
       saveCurrentDraft(machine, runs, tolerance);
     }, 400);
     return () => clearTimeout(timer);
-  }, [machine, runs, tolerance]);
+  }, [machine, runs, tolerance, activeSample]);
 
   const showToast = (msg: string) => {
     setToastMessage(msg);
@@ -116,28 +119,41 @@ export const App: React.FC = () => {
     showToast('Reset vaporiser models to standard defaults.');
   };
 
+  // Clear sample data or form reset
+  const handleClearSample = () => {
+    setActiveSample(null);
+    clearCurrentDraft();
+    const freshMachine = createInitialMachineInfo();
+    const freshRuns: TestRun[] = [
+      {
+        id: 'run-1',
+        flowrate: 1.0,
+        carrierGas: '100% Oxygen (O2)',
+        dialPoints: createDefaultDialPoints()
+      }
+    ];
+    setMachine(freshMachine);
+    setRuns(freshRuns);
+    setTolerance(DEFAULT_TOLERANCE_CONFIG);
+    showToast('Form cleared. Ready for a new test.');
+  };
+
   // Reset / New Test
   const handleReset = () => {
-    if (window.confirm('Start a new test? This will reset the current form fields.')) {
-      clearCurrentDraft();
-      const freshMachine = createInitialMachineInfo();
-      const freshRuns: TestRun[] = [
-        {
-          id: 'run-1',
-          flowrate: 1.0,
-          carrierGas: '100% Oxygen (O2)',
-          dialPoints: createDefaultDialPoints()
-        }
-      ];
-      setMachine(freshMachine);
-      setRuns(freshRuns);
-      setTolerance(DEFAULT_TOLERANCE_CONFIG);
-      showToast('Form reset. Ready for a new test.');
+    if (activeSample || window.confirm('Start a new test? This will reset the current form fields.')) {
+      handleClearSample();
     }
   };
 
   // Load Samples for instant verification
   const handleLoadSample = (type: 'pass' | 'fail') => {
+    // If clicking the currently active sample, toggle it off / clear
+    if (activeSample === type) {
+      handleClearSample();
+      return;
+    }
+
+    setActiveSample(type);
     const today = getTodayDateString();
     if (type === 'pass') {
       setMachine({
@@ -186,7 +202,7 @@ export const App: React.FC = () => {
           dialPoints: passPoints
         }
       ]);
-      showToast('Loaded PASS demo data (all points within ISO ±15% tolerance).');
+      showToast('Loaded PASS demo data (Isoflurane). Click Clear or New Test to reset.');
     } else {
       setMachine({
         ownerCompanyName: 'Bayside Veterinary Emergency Centre',
@@ -199,10 +215,10 @@ export const App: React.FC = () => {
         machineModel: 'Burtons Compact Anaesthesia Unit',
         machineSerial: 'BC-9941',
         machineAssetTag: 'ASSET-MELB-089',
-        vaporiserModel: 'Penlon Sigma Delta Sevo',
-        vaporiserSerial: 'VAP-5520-SEV',
+        vaporiserModel: 'Penlon Sigma Delta Iso',
+        vaporiserSerial: 'VAP-5520-ISO',
         mountType: 'Cagemount',
-        agent: 'Sevoflurane',
+        agent: 'Isoflurane',
         testDate: today,
         nextDueDate: '2027-09-26',
         technicianName: 'Nick (Senior Biomedical Engineer)',
@@ -234,7 +250,7 @@ export const App: React.FC = () => {
           dialPoints: failPoints
         }
       ]);
-      showToast('Loaded FAIL demo data. Red underline and failure banner displayed.');
+      showToast('Loaded FAIL demo data (Isoflurane). Click Clear or New Test to reset.');
     }
   };
 
@@ -313,6 +329,21 @@ export const App: React.FC = () => {
     showToast('Report deleted from history.');
   };
 
+  const handleMachineChange = (updated: MachineInfo) => {
+    if (activeSample) setActiveSample(null);
+    setMachine(updated);
+  };
+
+  const handleRunsChange = (updatedRuns: TestRun[]) => {
+    if (activeSample) setActiveSample(null);
+    setRuns(updatedRuns);
+  };
+
+  const handleToleranceChange = (updatedTolerance: ToleranceConfig) => {
+    if (activeSample) setActiveSample(null);
+    setTolerance(updatedTolerance);
+  };
+
   const getPdfDocPromise = useCallback(() => {
     return generateVaporiserPdf({
       machine,
@@ -337,6 +368,8 @@ export const App: React.FC = () => {
         onOpenHistoryModal={() => setIsHistoryModalOpen(true)}
         onReset={handleReset}
         onLoadSample={handleLoadSample}
+        onClearSample={handleClearSample}
+        activeSample={activeSample}
         isPassed={evaluation.isPassed}
         hasMeasurements={evaluation.hasMeasurements}
       />
@@ -344,13 +377,37 @@ export const App: React.FC = () => {
       {/* Main Content Area */}
       <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-6">
         
+        {/* Sample Demo Active Banner */}
+        {activeSample && (
+          <div className="bg-amber-50 border border-amber-300/80 rounded-2xl p-4 text-xs sm:text-sm text-amber-950 flex flex-col sm:flex-row sm:items-center justify-between gap-3 shadow-xs animate-in fade-in duration-200">
+            <div className="flex items-center gap-2.5 font-medium">
+              <Sparkles className="w-5 h-5 text-amber-600 flex-shrink-0" />
+              <span>
+                Currently viewing <strong>{activeSample.toUpperCase()} Sample Demo Data</strong> (Isoflurane). You can preview or email the report, or click Clear to start your test.
+              </span>
+            </div>
+            <button
+              type="button"
+              onClick={handleClearSample}
+              className="self-start sm:self-auto px-3.5 py-1.5 bg-white hover:bg-amber-100 text-amber-900 border border-amber-300 rounded-lg font-bold text-xs transition cursor-pointer shadow-2xs flex items-center gap-1.5"
+            >
+              <RotateCcw className="w-3.5 h-3.5 text-amber-700" />
+              Clear Sample Data
+            </button>
+          </div>
+        )}
+
         {/* CRITICAL REQUIREMENT: "if the vaporiser fails place failed with an underline over the entire page in red" */}
-        <FailedFullPageBanner evaluation={evaluation} />
+        <FailedFullPageBanner 
+          evaluation={evaluation} 
+          isSampleActive={activeSample !== null}
+          onClearSample={handleClearSample}
+        />
 
         {/* 1. Machine & Vaporiser Details Card */}
         <MachineDetailsCard
           machine={machine}
-          onChange={setMachine}
+          onChange={handleMachineChange}
           vaporiserModels={vaporiserModels}
           onOpenManageModels={() => setIsManageModelsOpen(true)}
           onAddModel={handleAddVaporiserModel}
@@ -360,9 +417,9 @@ export const App: React.FC = () => {
         {/* 2. Flowrate & Dial Settings Test Table */}
         <FlowrateTestTable
           runs={runs}
-          onChangeRuns={setRuns}
+          onChangeRuns={handleRunsChange}
           tolerance={tolerance}
-          onChangeTolerance={setTolerance}
+          onChangeTolerance={handleToleranceChange}
         />
 
         {/* 3. Summary Assessment & Notes */}
@@ -370,7 +427,7 @@ export const App: React.FC = () => {
           evaluation={evaluation}
           tolerance={tolerance}
           notes={machine.notes}
-          onChangeNotes={(notes) => setMachine({ ...machine, notes })}
+          onChangeNotes={(notes) => handleMachineChange({ ...machine, notes })}
         />
 
       </main>

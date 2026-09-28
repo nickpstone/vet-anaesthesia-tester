@@ -1,12 +1,18 @@
 import React from 'react';
-import { AlertOctagon, AlertTriangle, ShieldAlert } from 'lucide-react';
+import { AlertOctagon, AlertTriangle, ShieldAlert, RotateCcw } from 'lucide-react';
 import { OverallEvaluation } from '../types';
 
 interface FailedFullPageBannerProps {
   evaluation: OverallEvaluation;
+  isSampleActive?: boolean;
+  onClearSample?: () => void;
 }
 
-export const FailedFullPageBanner: React.FC<FailedFullPageBannerProps> = ({ evaluation }) => {
+export const FailedFullPageBanner: React.FC<FailedFullPageBannerProps> = ({ 
+  evaluation,
+  isSampleActive,
+  onClearSample
+}) => {
   if (!evaluation.hasMeasurements || evaluation.isPassed) {
     return null;
   }
@@ -35,9 +41,22 @@ export const FailedFullPageBanner: React.FC<FailedFullPageBannerProps> = ({ eval
           <AlertOctagon className="w-4 h-4" />
           Critical Warning: Anaesthesia Vaporiser Calibration Failed
         </span>
-        <span className="bg-black/20 px-2 py-0.5 rounded text-[11px]">
-          {evaluation.failedCount} Point(s) Out of Specification
-        </span>
+        <div className="flex items-center gap-2">
+          {isSampleActive && onClearSample && (
+            <button
+              type="button"
+              onClick={onClearSample}
+              className="px-2.5 py-0.5 bg-white hover:bg-rose-50 text-rose-700 rounded font-bold text-[11px] transition cursor-pointer flex items-center gap-1 shadow-xs"
+              title="Clear sample demo data and start new test"
+            >
+              <RotateCcw className="w-3 h-3" />
+              <span>Clear Demo Data</span>
+            </button>
+          )}
+          <span className="bg-black/20 px-2 py-0.5 rounded text-[11px]">
+            {evaluation.failedCount} Point(s) Out of Specification
+          </span>
+        </div>
       </div>
 
       {/* Main Failed Banner Card */}

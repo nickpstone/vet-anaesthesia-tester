@@ -43,7 +43,6 @@
 
 /* Failed diagonal watermark overlay */
 .failed-watermark-overlay {
-  pointer-events: none;
   background-image: repeating-linear-gradient(
     -45deg,
     rgba(239, 68, 68, 0.05),

@@ -15,7 +15,7 @@ import {
   Plus,
   Trash2
 } from 'lucide-react';
-import { AnaestheticAgent, MachineInfo, MountType } from '../types';
+import { MachineInfo, MountType } from '../types';
 import { 
   AGENT_CONFIGS, 
   COMMON_MACHINE_MODELS, 
@@ -56,24 +56,7 @@ export const MachineDetailsCard: React.FC<MachineDetailsCardProps> = ({
     onChange(updated);
   };
 
-  const handleAgentChange = (newAgent: AnaestheticAgent) => {
-    const updated = { ...machine, agent: newAgent };
-    const agentConfig = AGENT_CONFIGS[newAgent];
-    if (agentConfig && agentConfig.commonModels.length > 0) {
-      if (!machine.vaporiserModel || vaporiserModels.includes(machine.vaporiserModel)) {
-        updated.vaporiserModel = agentConfig.commonModels[0];
-      }
-    }
-    onChange(updated);
-  };
-
-  const agents: AnaestheticAgent[] = [
-    'Isoflurane',
-    'Sevoflurane',
-    'Halothane',
-    'Desflurane',
-    'Enflurane'
-  ];
+  const isoConfig = AGENT_CONFIGS.Isoflurane;
 
   const mountTypes: { type: MountType; label: string; desc: string }[] = [
     { 
@@ -198,40 +181,31 @@ export const MachineDetailsCard: React.FC<MachineDetailsCardProps> = ({
         </div>
       </div>
 
-      {/* 2. ANAESTHETIC AGENT SELECTOR */}
+      {/* 2. ANAESTHETIC AGENT (Isoflurane Dedicated) */}
       <div>
-        <label className="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-2 flex items-center gap-1.5">
-          <Flame className="w-4 h-4 text-[#09b0bb]" />
-          Anaesthetic Agent
+        <label className="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-2 flex items-center justify-between">
+          <span className="flex items-center gap-1.5">
+            <Flame className="w-4 h-4 text-purple-600" />
+            Anaesthetic Agent
+          </span>
+          <span className="text-[11px] text-purple-600 font-semibold uppercase tracking-wider">Purple Standard Coding</span>
         </label>
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-2">
-          {agents.map((agent) => {
-            const config = AGENT_CONFIGS[agent];
-            const isSelected = machine.agent === agent;
-            return (
-              <button
-                key={agent}
-                type="button"
-                onClick={() => handleAgentChange(agent)}
-                className={`flex flex-col items-center justify-center p-3 rounded-xl border text-center transition-all cursor-pointer ${
-                  isSelected
-                    ? 'border-[#09b0bb] ring-2 ring-[#09b0bb]/40 bg-[#09b0bb]/10 shadow-xs'
-                    : 'border-slate-200 bg-white hover:bg-slate-50 hover:border-slate-300 text-slate-700 shadow-2xs'
-                }`}
-              >
-                <div 
-                  className="w-4 h-4 rounded-full mb-1.5 shadow-xs"
-                  style={{ backgroundColor: config.color }}
-                />
-                <span className={`text-xs font-bold ${isSelected ? 'text-slate-900' : 'text-slate-700'}`}>
-                  {agent}
-                </span>
-                <span className="text-[10px] text-slate-500 mt-0.5 font-medium">
-                  Max: {config.maxStandardDial}%
-                </span>
-              </button>
-            );
-          })}
+        <div className="flex items-center gap-3 p-3.5 rounded-xl border border-purple-200 bg-purple-50/60 shadow-2xs">
+          <div 
+            className="w-5 h-5 rounded-full shadow-xs flex-shrink-0"
+            style={{ backgroundColor: isoConfig?.color || '#9333ea' }}
+          />
+          <div className="flex-1 min-w-0">
+            <div className="flex items-center gap-2">
+              <span className="text-sm font-bold text-slate-900">Isoflurane</span>
+              <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-purple-100 text-purple-800 border border-purple-200 uppercase tracking-wider">
+                Dedicated Agent
+              </span>
+            </div>
+            <p className="text-xs text-slate-500 m-0 mt-0.5 font-medium">
+              Calibrated exclusively for Isoflurane (Standard dial range 0.2% – {isoConfig?.maxStandardDial || 5.0}%)
+            </p>
+          </div>
         </div>
       </div>
 

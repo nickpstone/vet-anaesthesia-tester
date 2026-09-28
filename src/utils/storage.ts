@@ -64,7 +64,7 @@ export function loadCurrentDraft(): {
   try {
     const rawMachine = localStorage.getItem(KEYS.DRAFT_MACHINE);
     if (rawMachine) {
-      machine = { ...machine, ...JSON.parse(rawMachine) };
+      machine = { ...machine, ...JSON.parse(rawMachine), agent: 'Isoflurane' };
     }
 
     const rawRuns = localStorage.getItem(KEYS.DRAFT_RUNS);

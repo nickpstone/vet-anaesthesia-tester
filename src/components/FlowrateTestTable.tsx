@@ -6,10 +6,8 @@ import {
   CheckCircle2, 
   XCircle, 
   Clock, 
-  AlertTriangle,
   RotateCcw,
-  Sliders,
-  ChevronRight
+  Sliders
 } from 'lucide-react';
 import { DialPoint, RunEvaluation, TestRun, ToleranceConfig } from '../types';
 import { evaluateRun, evaluatePoint } from '../utils/calculations';

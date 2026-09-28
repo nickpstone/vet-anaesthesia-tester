@@ -23,61 +23,6 @@ export const AGENT_CONFIGS: Record<AnaestheticAgent, AgentConfig> = {
       'Burtons Compact Iso'
     ],
     maxStandardDial: 5.0
-  },
-  Sevoflurane: {
-    name: 'Sevoflurane',
-    color: '#eab308', // Yellow (standard medical color coding)
-    badgeBg: 'bg-amber-950/60',
-    badgeBorder: 'border-amber-500/40 text-amber-300',
-    textColor: 'text-amber-400',
-    commonModels: [
-      'Datex-Ohmeda Tec 4 Sevo',
-      'Datex-Ohmeda Tec 5 Sevo',
-      'Datex-Ohmeda Tec 7 Sevo',
-      'Dräger Vapor 2000 Sevo',
-      'Penlon Sigma Delta Sevo',
-      'Blease Datum Sevo',
-      'Vetland VIP 3000 Sevo'
-    ],
-    maxStandardDial: 8.0
-  },
-  Halothane: {
-    name: 'Halothane',
-    color: '#ef4444', // Red (standard medical color coding)
-    badgeBg: 'bg-rose-950/60',
-    badgeBorder: 'border-rose-500/40 text-rose-300',
-    textColor: 'text-rose-400',
-    commonModels: [
-      'Datex-Ohmeda Tec 3 Halothane',
-      'Datex-Ohmeda Tec 4 Halothane',
-      'Dräger Vapor 19.n Halothane',
-      'Penlon Sigma Delta Halothane'
-    ],
-    maxStandardDial: 5.0
-  },
-  Desflurane: {
-    name: 'Desflurane',
-    color: '#3b82f6', // Blue (standard medical color coding)
-    badgeBg: 'bg-blue-950/60',
-    badgeBorder: 'border-blue-500/40 text-blue-300',
-    textColor: 'text-blue-400',
-    commonModels: [
-      'Datex-Ohmeda Tec 6 / Tec 6 Plus',
-      'Dräger D-Vapor'
-    ],
-    maxStandardDial: 18.0
-  },
-  Enflurane: {
-    name: 'Enflurane',
-    color: '#f97316', // Orange (standard medical color coding)
-    badgeBg: 'bg-orange-950/60',
-    badgeBorder: 'border-orange-500/40 text-orange-300',
-    textColor: 'text-orange-400',
-    commonModels: [
-      'Datex-Ohmeda Tec 4 Enflurane',
-      'Dräger 19.n Enflurane'
-    ],
-    maxStandardDial: 5.0
   }
 };
 

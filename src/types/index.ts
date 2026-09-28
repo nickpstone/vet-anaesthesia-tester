@@ -1,11 +1,6 @@
 export type MountType = 'Selectatec' | 'Cagemount';
 
-export type AnaestheticAgent = 
-  | 'Isoflurane' 
-  | 'Sevoflurane' 
-  | 'Halothane' 
-  | 'Desflurane' 
-  | 'Enflurane';
+export type AnaestheticAgent = 'Isoflurane';
 
 export interface AgentConfig {
   name: AnaestheticAgent;

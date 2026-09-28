@@ -5,9 +5,6 @@ import {
   Eye, 
   BookmarkCheck, 
   Loader2, 
-  Share2, 
-  Printer,
-  Sparkles,
   Check
 } from 'lucide-react';
 import { OverallEvaluation } from '../types';

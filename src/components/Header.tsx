@@ -19,6 +19,8 @@ interface HeaderProps {
   onOpenHistoryModal: () => void;
   onReset: () => void;
   onLoadSample: (type: 'pass' | 'fail') => void;
+  onClearSample: () => void;
+  activeSample: 'pass' | 'fail' | null;
   isPassed: boolean;
   hasMeasurements: boolean;
 }
@@ -29,6 +31,8 @@ export const Header: React.FC<HeaderProps> = ({
   onOpenHistoryModal,
   onReset,
   onLoadSample,
+  onClearSample,
+  activeSample,
   isPassed,
   hasMeasurements
 }) => {
@@ -117,26 +121,45 @@ export const Header: React.FC<HeaderProps> = ({
           <div className="flex items-center gap-2 sm:gap-3">
             
             {/* Quick Demo Fillers */}
-            <div className="hidden lg:flex items-center bg-slate-100 rounded-lg p-1 border border-slate-200 text-xs">
+            <div className="hidden sm:flex items-center bg-slate-100 rounded-lg p-1 border border-slate-200 text-xs">
               <span className="text-slate-600 px-2 flex items-center gap-1 font-semibold">
                 <Sparkles className="w-3.5 h-3.5 text-[#09b0bb]" /> Demo:
               </span>
               <button
                 type="button"
                 onClick={() => onLoadSample('pass')}
-                className="px-2.5 py-1 rounded-md bg-white hover:bg-emerald-50 hover:text-emerald-700 text-slate-700 border border-slate-200/80 transition-colors font-semibold cursor-pointer shadow-2xs"
-                title="Fill with passing test data"
+                className={`px-2.5 py-1 rounded-md transition-colors font-semibold cursor-pointer shadow-2xs ${
+                  activeSample === 'pass'
+                    ? 'bg-emerald-600 text-white border border-emerald-700 font-bold'
+                    : 'bg-white hover:bg-emerald-50 hover:text-emerald-700 text-slate-700 border border-slate-200/80'
+                }`}
+                title={activeSample === 'pass' ? 'Click to clear sample data' : 'Fill with passing test data'}
               >
-                Pass Sample
+                Pass Sample {activeSample === 'pass' && '✓'}
               </button>
               <button
                 type="button"
                 onClick={() => onLoadSample('fail')}
-                className="px-2.5 py-1 rounded-md bg-white hover:bg-rose-50 hover:text-rose-700 text-slate-700 border border-slate-200/80 transition-colors font-semibold ml-1 cursor-pointer shadow-2xs"
-                title="Fill with failing test data to view red page underline"
+                className={`px-2.5 py-1 rounded-md transition-colors font-semibold ml-1 cursor-pointer shadow-2xs ${
+                  activeSample === 'fail'
+                    ? 'bg-rose-600 text-white border border-rose-700 font-bold'
+                    : 'bg-white hover:bg-rose-50 hover:text-rose-700 text-slate-700 border border-slate-200/80'
+                }`}
+                title={activeSample === 'fail' ? 'Click to clear sample data' : 'Fill with failing test data to view red page underline'}
               >
-                Fail Sample
+                Fail Sample {activeSample === 'fail' && '✕'}
               </button>
+              {activeSample && (
+                <button
+                  type="button"
+                  onClick={onClearSample}
+                  className="px-2 py-1 rounded-md bg-white hover:bg-rose-50 text-rose-600 hover:text-rose-700 border border-rose-200 font-bold ml-1.5 cursor-pointer shadow-2xs flex items-center gap-1"
+                  title="Clear sample demo data"
+                >
+                  <RotateCcw className="w-3 h-3" />
+                  <span>Clear</span>
+                </button>
+              )}
             </div>
 
             {/* Offline/Online Badge */}
