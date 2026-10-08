@@ -401,7 +401,7 @@ export async function generateVaporiserPdf({
   doc.setFont('helvetica', 'italic');
   doc.setFontSize(7);
   doc.setTextColor(148, 163, 184);
-  doc.text('Signature of Certified Biomedical Engineer', signCol3, currentY + 22);
+  doc.text('Signature', signCol3, currentY + 22);
 
   // 8. Footer (ISO standard note)
   doc.setFont('helvetica', 'normal');
