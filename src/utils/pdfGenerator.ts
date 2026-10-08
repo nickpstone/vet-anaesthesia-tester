@@ -1,4 +1,5 @@
 import jsPDF from 'jspdf';
+import { preparePdfLogo } from './pdfLogo';
 import autoTable from 'jspdf-autotable';
 import { CompanyProfile, MachineInfo, OverallEvaluation, TestRun, ToleranceConfig } from '../types';
 
@@ -66,29 +67,13 @@ export async function generateVaporiserPdf({
   let logoRendered = false;
   if (company.logoDataUrl && company.logoDataUrl.startsWith('data:image')) {
     try {
-      const img = new Image();
-      img.src = company.logoDataUrl;
-      await new Promise((resolve) => {
-        if (img.complete) resolve(true);
-        else {
-          img.onload = () => resolve(true);
-          img.onerror = () => resolve(false);
-        }
-      });
-
-      const maxLogoW = 48;
-      const maxLogoH = 20;
-      let imgW = maxLogoW;
-      let imgH = (img.height / img.width) * maxLogoW;
-      if (imgH > maxLogoH) {
-        imgH = maxLogoH;
-        imgW = (img.width / img.height) * maxLogoH;
-      }
-
-      doc.addImage(company.logoDataUrl, leftMargin, currentY, imgW, imgH);
+      const logo = await preparePdfLogo(company.logoDataUrl);
+      const scale = Math.min(48 / logo.width, 20 / logo.height);
+      doc.addImage(logo.dataUrl, 'PNG', leftMargin, currentY, logo.width * scale, logo.height * scale);
       logoRendered = true;
     } catch (e) {
-      console.warn('Could not add logo to PDF', e);
+      console.error('Could not add logo to PDF', e);
+      throw new Error('The saved company logo could not be added to the PDF. Upload it again in Testing Company & Logo Setup and retry.');
     }
   }
 

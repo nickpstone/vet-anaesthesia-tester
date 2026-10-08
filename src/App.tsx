@@ -268,7 +268,7 @@ export const App: React.FC = () => {
       showToast(result.message);
     } catch (err) {
       console.error('Email/Share failed', err);
-      showToast('Failed to share PDF. Please try Download PDF instead.');
+      showToast(err instanceof Error ? err.message : 'Failed to share PDF. Please try Download PDF instead.');
     } finally {
       setIsGeneratingPdf(false);
     }
@@ -293,7 +293,7 @@ export const App: React.FC = () => {
       showToast(`Downloaded ${filename}`);
     } catch (err) {
       console.error('Download PDF error', err);
-      showToast('Error generating PDF download.');
+      showToast(err instanceof Error ? err.message : 'Error generating PDF download.');
     } finally {
       setIsGeneratingPdf(false);
     }

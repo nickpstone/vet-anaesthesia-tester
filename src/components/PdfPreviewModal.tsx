@@ -19,11 +19,13 @@ export const PdfPreviewModal: React.FC<PdfPreviewModalProps> = ({
   const [pdfUrl, setPdfUrl] = useState<string | null>(null);
   const [blob, setBlob] = useState<Blob | null>(null);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
 
   useEffect(() => {
     let active = true;
     if (isOpen) {
       setLoading(true);
+      setError('');
       pdfDocPromise()
         .then((doc) => {
           if (!active) return;
@@ -34,6 +36,8 @@ export const PdfPreviewModal: React.FC<PdfPreviewModalProps> = ({
           setLoading(false);
         })
         .catch((err) => {
+          if (!active) return;
+          setError(err instanceof Error ? err.message : 'Failed to generate PDF preview.');
           console.error('Failed to render PDF preview', err);
           setLoading(false);
         });
@@ -119,7 +123,7 @@ export const PdfPreviewModal: React.FC<PdfPreviewModalProps> = ({
               title="PDF Report Preview"
             />
           ) : (
-            <div className="text-rose-600 text-sm font-semibold">Failed to generate PDF preview.</div>
+            <div className="text-rose-600 text-sm font-semibold">{error || 'Failed to generate PDF preview.'}</div>
           )}
         </div>
 

@@ -82,3 +82,9 @@ See [DEPLOYMENT.md](file:///home/nick/Projects/vet-anaesthesia-tester/DEPLOYMENT
 - **ISO 8835-4**: Inhalation anaesthesia systems - Anaesthetic vapour delivery devices.
 - **ASTM F1161**: Standard specification for minimum performance and safety requirements for components and systems of anaesthesia machines.
 - **Standard Tolerance**: ±15% of setting (or ±0.15% absolute at concentrations below 1.0%).
+
+## Company logo in PDF reports
+
+Save your logo in **Testing Company & Logo Setup**. PDF preview, download, and email/share use that saved company profile. PNG, JPEG, WebP, and SVG logos are converted to PNG for PDF embedding, with proportions preserved. An unreadable logo produces an error rather than silently exporting an unbranded certificate.
+
+Run `node scripts/test-pdf-logo.cjs` to check logo conversion and actual PDF embedding.
